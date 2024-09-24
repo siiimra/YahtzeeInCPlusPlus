@@ -10,6 +10,7 @@
 #include <iomanip>
 #include <string>
 #include "Human.h"
+#include "Scorecard.h"
 using namespace std;
 
 
@@ -20,7 +21,8 @@ Parameters:
             chooseToPlay - int value given by the user to determine if
             they want to play a game of Yahtzee or not
 Return Value: 
-            int (status code for game)
+            Status code for game
+            Function again if input is invalid
 Algorithm:
             1) Generates a new game if user chooses yes
             2) Exits program if user says no
@@ -46,29 +48,32 @@ int selectMenu(int& chooseToPlay) {
 
 int main()
 {
-    //Variable that allows user to choose to select new game or exit game
-    int chooseToPlay;
+    ////Variable that allows user to choose to select new game or exit game
+    //int chooseToPlay;
 
-    //Display welcome screen with options
-    cout << "Welcome! Would you like to begin a game of Yahtzee?" << endl;
-    cout << "1. New Game " << "2. Exit Game" << endl;
-    cout << "What action would you like to take? ";
-    cin >> chooseToPlay;
-    selectMenu(chooseToPlay);
+    ////Display welcome screen with options
+    //cout << "Welcome! Would you like to begin a game of Yahtzee?" << endl;
+    //cout << "1. New Game " << "2. Exit Game" << endl;
+    //cout << "What action would you like to take? ";
+    //cin >> chooseToPlay;
+    //selectMenu(chooseToPlay);
 
 
 
-    // Seed random number generator
-    srand(time(0));
+    //// Seed random number generator
+    //srand(time(0));
 
-    // Initialize Human player
-    Human human1("Simra");
+    //// Initialize Human player
+    //Human human1("Simra");
 
-    // Vector to store dice values (5 dice for the game)
-    vector<int> dice(5);
+    //// Vector to store dice values (5 dice for the game)
+    //vector<int> dice(5);
 
-    // Test human player rolling the dice using the regular for-loop
-    human1.rollDice(dice);
+    //// Test human player rolling the dice using the regular for-loop
+    //human1.rollDice(dice);
+
+    Scorecard scoreboard;
+    scoreboard.displayScorecard();
 
     return 0;
   

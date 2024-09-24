@@ -16,11 +16,12 @@ public:
 	//Default constructor for Player 
 	Player(string name1 = "Computer");
 
-	// Getter and Setter functions
+	// Selecter Functions
 	string getName() const;
 
 	int getScore() const;
 
+	//Mutator functions
 	void setName(string name);
 
 	void setScore(int score);
