@@ -25,26 +25,26 @@ Scorecard::Scorecard()
 }
 
 void Scorecard::displayScorecard() {
-	cout << "Category\t\t " << "Description\t" << "Score\t" << "Winner\t" << "Points\t" << "Round\t" << endl;
+	cout << "Category\t" << "Description\t" << "Score\t" << "Winner\t" << "Points\t" << "Round\t" << endl;
 
 	for (int i = 0; i < 12; i++) {
 		if (i == 0) {
 			cout << "Aces\t\t" << "Any combination\t" << "Sum of dice with the number 1\t" << winners[i] << '\t' << scoreboard[i][0] << '\t' << scoreboard[i][1] << endl;
 		}
 		else if (i == 1) {
-			cout << "Twos\t" << "Any combination\t" << "Sum of dice with the number 2\t" << winners[i] << '\t' << scoreboard[i][0] << scoreboard[i][1] << endl;
+			cout << "Twos\t\t" << "Any combination\t" << "Sum of dice with the number 2\t" << winners[i] << '\t' << scoreboard[i][0] << scoreboard[i][1] << endl;
 		}
 		else if (i == 2) {
-			cout << "Threes\t" << "Any combination\t" << "Sum of dice with the number 3\t" << winners[i] << '\t' << scoreboard[i][0] << scoreboard[i][1] << endl;
+			cout << "Threes\t\t" << "Any combination\t" << "Sum of dice with the number 3\t" << winners[i] << '\t' << scoreboard[i][0] << scoreboard[i][1] << endl;
 		}
 		else if (i == 3) {
-			cout << "Fours\t" << "Any combination\t" << "Sum of dice with the number 4\t" << winners[i] << '\t' << scoreboard[i][0] << scoreboard[i][1] << endl;
+			cout << "Fours\t\t" << "Any combination\t" << "Sum of dice with the number 4\t" << winners[i] << '\t' << scoreboard[i][0] << scoreboard[i][1] << endl;
 		}
 		else if (i == 4) {
-			cout << "Fives\t" << "Any combination\t" << "Sum of dice with the number 5\t" << winners[i] << '\t' << scoreboard[i][0] << scoreboard[i][1] << endl;
+			cout << "Fives\t\t" << "Any combination\t" << "Sum of dice with the number 5\t" << winners[i] << '\t' << scoreboard[i][0] << scoreboard[i][1] << endl;
 		}
 		else if (i == 5) {
-			cout << "Sixes\t" << "Any combination\t" << "Sum of dice with the number 6\t" << winners[i] << '\t' << scoreboard[i][0] << scoreboard[i][1] << endl;
+			cout << "Sixes\t\t" << "Any combination\t" << "Sum of dice with the number 6\t" << winners[i] << '\t' << scoreboard[i][0] << scoreboard[i][1] << endl;
 		}
 		else if (i == 6) {
 			cout << "Three of a kind\t" << "At least three dice the same\t" << "Sum of all the dice\t" << winners[i] << '\t' << scoreboard[i][0] << scoreboard[i][1] << endl;
