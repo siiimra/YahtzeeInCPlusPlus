@@ -8,8 +8,6 @@ using namespace std;
 class Human:public Player {
 
 public:
-	Human(string givenName) {
-		/*name = givenName*/
-	}
+	Human(string givenName = "");
 
 };

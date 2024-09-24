@@ -10,25 +10,14 @@ class Player {
 	int score;
 
 public:
-	Player(string name1 = "Computer") {
-		score = 0;
-		name = name1;
-	}
+	Player(string name1 = "Computer");
 
-	string getName() {
-		return name;
-	}
+		string getName();
 
-	int getScore() {
-		return score;
-	}
+		int getScore();
 
-	void setName(string name) {
-		this->name = name;
-	}
+		void setName(string name);
 
-	void setScore(int score) {
-		this->score = score;
-	}
+		void setScore(int score);
 
 };
