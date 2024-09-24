@@ -18,51 +18,51 @@ Scorecard::Scorecard()
 	}
 
 	for (int i = 0; i < 12; i++) {
-		winners[i] = " ";
+		winners[i] = "Example";
 	}
 
 
 }
 
 void Scorecard::displayScorecard() {
-	cout << "Category\t" << "Description\t" << "Score\t" << "Winner\t" << "Points\t" << "Round\t" << endl;
+	cout << "Category\t" << "Description\t\t\t" << "Score\t\t\t\t" << "Winner\t\t" << "Points\t" << "Round\t" << endl;
 
 	for (int i = 0; i < 12; i++) {
 		if (i == 0) {
-			cout << "Aces\t\t" << "Any combination\t" << "Sum of dice with the number 1\t" << winners[i] << '\t' << scoreboard[i][0] << '\t' << scoreboard[i][1] << endl;
+			cout << "Aces\t\t" << "Any combination\t\t\t" << "Sum of dice with the number 1\t" << winners[i] << "\t\t" << scoreboard[i][0] << '\t' << scoreboard[i][1] << endl;
 		}
 		else if (i == 1) {
-			cout << "Twos\t\t" << "Any combination\t" << "Sum of dice with the number 2\t" << winners[i] << '\t' << scoreboard[i][0] << scoreboard[i][1] << endl;
+			cout << "Twos\t\t" << "Any combination\t\t\t" << "Sum of dice with the number 2\t" << winners[i] << "\t\t" << scoreboard[i][0] << '\t' << scoreboard[i][1] << endl;
 		}
 		else if (i == 2) {
-			cout << "Threes\t\t" << "Any combination\t" << "Sum of dice with the number 3\t" << winners[i] << '\t' << scoreboard[i][0] << scoreboard[i][1] << endl;
+			cout << "Threes\t\t" << "Any combination\t\t\t" << "Sum of dice with the number 3\t" << winners[i] << "\t\t" << scoreboard[i][0] << '\t' << scoreboard[i][1] << endl;
 		}
 		else if (i == 3) {
-			cout << "Fours\t\t" << "Any combination\t" << "Sum of dice with the number 4\t" << winners[i] << '\t' << scoreboard[i][0] << scoreboard[i][1] << endl;
+			cout << "Fours\t\t" << "Any combination\t\t\t" << "Sum of dice with the number 4\t" << winners[i] << "\t\t" << scoreboard[i][0] << '\t' << scoreboard[i][1] << endl;
 		}
 		else if (i == 4) {
-			cout << "Fives\t\t" << "Any combination\t" << "Sum of dice with the number 5\t" << winners[i] << '\t' << scoreboard[i][0] << scoreboard[i][1] << endl;
+			cout << "Fives\t\t" << "Any combination\t\t\t" << "Sum of dice with the number 5\t" << winners[i] << "\t\t" << scoreboard[i][0] << '\t' << scoreboard[i][1] << endl;
 		}
 		else if (i == 5) {
-			cout << "Sixes\t\t" << "Any combination\t" << "Sum of dice with the number 6\t" << winners[i] << '\t' << scoreboard[i][0] << scoreboard[i][1] << endl;
+			cout << "Sixes\t\t" << "Any combination\t\t\t" << "Sum of dice with the number 6\t" << winners[i] << "\t\t" << scoreboard[i][0] << '\t' << scoreboard[i][1] << endl;
 		}
 		else if (i == 6) {
-			cout << "Three of a kind\t" << "At least three dice the same\t" << "Sum of all the dice\t" << winners[i] << '\t' << scoreboard[i][0] << scoreboard[i][1] << endl;
+			cout << "3 of a kind\t" << "At least 3 dice the same\t" << "Sum of all the dice\t\t" << winners[i] << "\t\t" << scoreboard[i][0] << '\t' << scoreboard[i][1] << endl;
 		}
 		else if (i == 7) {
-			cout << "Four of a kind\t" << "At least four dice the same\t" << "Sum of all the dice\t" << winners[i] << '\t' << scoreboard[i][0] << scoreboard[i][1] << endl;
+			cout << "4 of a kind\t" << "At least 4 dice the same\t" << "Sum of all the dice\t\t" << winners[i] << "\t\t" << scoreboard[i][0] << '\t' << scoreboard[i][1] << endl;
 		}
 		else if (i == 8) {
-			cout << "Full house\t" << "Three of one number and two of another\t" << "25\t" << winners[i] << '\t' << scoreboard[i][0] << scoreboard[i][1] << endl;
+			cout << "Full house\t" << "3 of one number and 2 of another\t" << "25\t\t\t" << winners[i] << "\t\t" << scoreboard[i][0] << '\t' << scoreboard[i][1] << endl;
 		}
 		else if (i == 9) {
-			cout << "Four Straight\t" << "Four sequential dice\t" << "30\t" << winners[i] << '\t' << scoreboard[i][0] << scoreboard[i][1] << endl;
+			cout << "Four Straight\t" << "4 sequential dice\t\t\t" << "30\t\t\t" << winners[i] << "\t\t" << scoreboard[i][0] << '\t' << scoreboard[i][1] << endl;
 		}
 		else if (i == 10) {
-			cout << "Five Straight\t" << "Five sequential dice\t" << "40\t" << winners[i] << '\t' << scoreboard[i][0] << scoreboard[i][1] << endl;
+			cout << "Five Straight\t" << "5 sequential dice\t\t\t" << "40\t\t\t" << winners[i] << "\t\t" << scoreboard[i][0] << '\t' << scoreboard[i][1] << endl;
 		}
 		else if (i == 11) {
-			cout << "Yahtzee\t" << "All five dice the same\t" << "50\t" << winners[i] << '\t' << scoreboard[i][0] << scoreboard[i][1] << endl;
+			cout << "Yahtzee\t\t" << "All 5 dice the same\t\t\t" << "50\t\t\t" << winners[i] << "\t\t" << scoreboard[i][0] << '\t' << scoreboard[i][1] << endl;
 
 		}
 	}
