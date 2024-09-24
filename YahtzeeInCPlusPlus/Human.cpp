@@ -13,7 +13,7 @@ Human::Human(string name1) : Player(name1) {
 
 }
 
-void Human::rollDice(std::vector<int>& dice) {
+void Human::rollDice(vector<int>& dice) {
     cout << "It's your turn to roll the dice.\n";
 
     // Roll the dice using a regular for-loop
@@ -22,7 +22,7 @@ void Human::rollDice(std::vector<int>& dice) {
     }
 
     // Display the dice values using a regular for-loop
-    std::cout << "You rolled: ";
+    cout << "You rolled: ";
     for (size_t i = 0; i < dice.size(); ++i) {
         cout << dice[i] << " ";
     }
@@ -30,5 +30,5 @@ void Human::rollDice(std::vector<int>& dice) {
 }
 
 void Human::chooseCategory() {
-    cout << "Choose a category." << std::endl;
+    cout << "Choose a category." << endl;
 }
