@@ -2,16 +2,16 @@
 
 
 
-	Player::Player(string name1 = "Computer") {
+	Player::Player(string name1) {
 		score = 0;
 		name = name1;
 	}
 
-	string Player::getName() {
+	string Player::getName() const {
 		return name;
 	}
 
-	int Player::getScore() {
+	int Player::getScore() const {
 		return score;
 	}
 

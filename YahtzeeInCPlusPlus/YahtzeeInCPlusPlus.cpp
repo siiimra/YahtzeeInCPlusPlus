@@ -20,7 +20,7 @@ Parameters:
             chooseToPlay - int value given by the user to determine if
             they want to play a game of Yahtzee or not
 Return Value: 
-            
+            int (status code for game)
 Algorithm:
             1) Generates a new game if user chooses yes
             2) Exits program if user says no
@@ -28,20 +28,21 @@ Algorithm:
 Reference: none
 ********************************************************************* */
 int selectMenu(int& chooseToPlay) {
-    
-
     if (chooseToPlay == 1) {
-        cout << "HI";
+        cout << "Starting a new game...\n\n";
+        return 1; // Start the game
     }
     else if (chooseToPlay == 2) {
-        cout << "Goodbye!";
-        exit(0);
+        cout << "Goodbye!\n";
+        exit(0); // Exit the game
     }
     else {
         cout << "Invalid input. Please enter a valid option: ";
-        cin >> chooseToPlay; 
+        cin >> chooseToPlay;
+        return selectMenu(chooseToPlay); // Recurse until valid input
     }
 }
+
 
 int main()
 {
@@ -53,11 +54,23 @@ int main()
     cout << "1. New Game " << "2. Exit Game" << endl;
     cout << "What action would you like to take? ";
     cin >> chooseToPlay;
-    //selectMenu(chooseToPlay);
+    selectMenu(chooseToPlay);
 
+
+
+    // Seed random number generator
+    srand(time(0));
+
+    // Initialize Human player
     Human human1("Simra");
-    cout << human1.getName();
-    
+
+    // Vector to store dice values (5 dice for the game)
+    vector<int> dice(5);
+
+    // Test human player rolling the dice using the regular for-loop
+    human1.rollDice(dice);
+
+    return 0;
   
 }
 

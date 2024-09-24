@@ -5,19 +5,24 @@
 using namespace std;
 
 class Player {
-	
+
+protected:
+
+	//Member variables that grab users name and score
 	string name;
 	int score;
 
 public:
+	//Default constructor for Player 
 	Player(string name1 = "Computer");
 
-		string getName();
+	// Getter and Setter functions
+	string getName() const;
 
-		int getScore();
+	int getScore() const;
 
-		void setName(string name);
+	void setName(string name);
 
-		void setScore(int score);
+	void setScore(int score);
 
 };
