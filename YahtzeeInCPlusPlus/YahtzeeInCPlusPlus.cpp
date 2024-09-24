@@ -9,6 +9,7 @@
 #include <iostream>
 #include <iomanip>
 #include <string>
+#include "Human.h"
 using namespace std;
 
 
@@ -26,9 +27,9 @@ Algorithm:
             3) Says input is invalid if user inputs anything other than 1 or 2
 Reference: none
 ********************************************************************* */
-int selectMenu(int chooseToPlay) {
+int selectMenu(int& chooseToPlay) {
     
-    
+
     if (chooseToPlay == 1) {
         cout << "HI";
     }
@@ -37,7 +38,8 @@ int selectMenu(int chooseToPlay) {
         exit(0);
     }
     else {
-        cout << "Invalid input.";
+        cout << "Invalid input. Please enter a valid option: ";
+        cin >> chooseToPlay; 
     }
 }
 
@@ -51,7 +53,10 @@ int main()
     cout << "1. New Game " << "2. Exit Game" << endl;
     cout << "What action would you like to take? ";
     cin >> chooseToPlay;
-    selectMenu(chooseToPlay);
+    //selectMenu(chooseToPlay);
+
+    Human human1("Simra");
+    cout << human1.getName();
     
   
 }
