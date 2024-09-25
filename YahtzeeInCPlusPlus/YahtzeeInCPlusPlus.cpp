@@ -80,7 +80,7 @@ int main()
     //human1.rollDice(dice);
 
     Scorecard scorecard;
-    //scoreboard.displayScorecard();
+    //scorecard.displayScorecard();
 
     Computer computer("Computer");
     //computer.rollDice(dice);

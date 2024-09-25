@@ -6,13 +6,12 @@ using namespace std;
 
 class Scorecard
 {
-    //Array to input winner of round name
-    string winners[12][4];
-
+    //Holds Category, Description, Score, Winner
+    string scoreboard1[12][4];
 
     //2-D array to input How many points have been earned
     //and which round it was earned in
-    int scoreboard[12][2];
+    int scoreboard2[12][2];
 
 public:
 

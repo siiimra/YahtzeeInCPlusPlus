@@ -74,13 +74,19 @@ void Round::playRound(Human& human, Computer& computer, Scorecard& scorecard) {
 		}
 	}
 
-	//Ask which category
-	//int chooseCategory;
-	//cout << "Choose which category you "
-	//
 	//Display scorecard after each player finishes rolling dice
+	
+	scorecard.displayAvailable();
+	
 
-
+	//Ask which category the player would like to pursue
+	int chooseCategory;
+	cout << "\nChoose a category to fill ";
+	cin >> chooseCategory;
+	while (chooseCategory == 0) {
+		cout << "Please input a valid input. ";
+		cin >> chooseCategory;
+	}
 
 
 }
