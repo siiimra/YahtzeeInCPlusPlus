@@ -66,5 +66,6 @@ void Scorecard::displayScorecard() {
 
 		}
 	}
+	cout << '\n';
 
 }
