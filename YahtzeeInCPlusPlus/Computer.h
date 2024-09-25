@@ -19,9 +19,7 @@ public:
 	Computer(string name1 = "Computer");
 
 
-	//Function for dice rolling, where values are stored in vector
-	void rollDice(vector<int>& dice);
-
+	
 	//Allows human to choose scoreboard category
 	void chooseCategory();
 

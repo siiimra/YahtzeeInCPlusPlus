@@ -16,10 +16,6 @@ public:
 	//Default constructor
 	Human(string name1 = "Human");
 
-
-	//Function for dice rolling, where values are stored in vector
-	void rollDice(vector<int>& dice);
-
 	//Allows human to choose scoreboard category
 	void chooseCategory();
 

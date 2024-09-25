@@ -9,9 +9,12 @@
 #include <iostream>
 #include <iomanip>
 #include <string>
+#include <time.h>
+#include <stdlib.h>
 #include "Human.h"
 #include "Scorecard.h"
 #include "Computer.h"
+#include "Round.h"
 using namespace std;
 
 
@@ -50,34 +53,45 @@ int selectMenu(int& chooseToPlay) {
 int main()
 {
     ////Variable that allows user to choose to select new game or exit game
-    int chooseToPlay;
+    //int chooseToPlay;
+    //srand(time(0));
 
-    ////Display welcome screen with options
-    cout << "Welcome! Would you like to begin a game of Yahtzee?" << endl;
-    cout << "1. New Game " << "2. Exit Game" << endl;
-    cout << "What action would you like to take? ";
-    cin >> chooseToPlay;
-    selectMenu(chooseToPlay);
+    //////Display welcome screen with options
+    //cout << "Welcome! Would you like to begin a game of Yahtzee?" << endl;
+    //cout << "1. New Game " << "2. Exit Game" << endl;
+    //cout << "What action would you like to take? ";
+    //cin >> chooseToPlay;
+    //selectMenu(chooseToPlay);
 
+    string name;
+    cout << "Please enter your name: ";
+    cin >> name;
 
-
-    //// Seed random number generator
+    ////// Seed random number generator
     srand(time(0));
 
-    //// Initialize Human player
-    Human human1("Simra");
+    ////// Initialize Human player
+    Human human1(name);
 
-    //// Vector to store dice values (5 dice for the game)
-    vector<int> dice(5);
+    ////// Vector to store dice values (5 dice for the game)
+    //vector<int> dice(5);
 
-    // Test human player rolling the dice using the regular for-loop
-    human1.rollDice(dice);
+    //// Test human player rolling the dice using the regular for-loop
+    //human1.rollDice(dice);
 
-    //Scorecard scoreboard;
+    Scorecard scorecard;
     //scoreboard.displayScorecard();
 
-    //Computer computer("Computer");
+    Computer computer("Computer");
     //computer.rollDice(dice);
+
+    Round round;
+
+    /*round.toss("Simra", "Computer");
+    round.rollDice("Simra");*/
+
+    round.playRound(human1, computer, scorecard);
+   
 
     return 0;
   

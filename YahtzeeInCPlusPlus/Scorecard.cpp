@@ -67,5 +67,27 @@ void Scorecard::displayScorecard() {
 		}
 	}
 	cout << '\n';
+}
 
+int Scorecard::calcScore(string name)
+{
+	int score = 0;
+	for (int i = 0; i < 12; i++)
+	{
+		if (winners[i] == name)
+		{
+			score += scoreboard[i][0];
+		}
+	}
+	return score;
+}
+
+void Scorecard::updateScorecard(int index, string name, int score, int round)
+{
+	if (winners[index] != " ") {
+		winners[index] = name;
+		scoreboard[index][0] = score;
+		scoreboard[index][1] = round;
+	}
+	
 }
