@@ -16,4 +16,7 @@ public:
 	string toss(string name1, string name2);
 	void playRound(Human& human, Computer& computer, Scorecard& scorecard);
 	void rollDice(string name);
+	void reRoll(string name);
+	void displayDice();
+	
 };

@@ -19,8 +19,5 @@ public:
 	Computer(string name1 = "Computer");
 
 
-	
-	//Allows human to choose scoreboard category
-	void chooseCategory();
 
 }; 

@@ -14,7 +14,3 @@ Human::Human(string name1) : Player(name1) {
 }
 
 
-
-void Human::chooseCategory() {
-    cout << "Choose a category." << endl;
-}

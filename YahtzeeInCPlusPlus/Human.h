@@ -16,7 +16,5 @@ public:
 	//Default constructor
 	Human(string name1 = "Human");
 
-	//Allows human to choose scoreboard category
-	void chooseCategory();
 
 };

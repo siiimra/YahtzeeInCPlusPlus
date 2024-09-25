@@ -1,4 +1,5 @@
 #include "Round.h"
+
 #include <iostream>
 #include <cstdlib>
 
@@ -41,19 +42,46 @@ string Round::toss(string name1, string name2) {
 	
 
 	if (dice1 > dice2) {
-		cout << name1 << " won this round.\n";
+		cout << name1 << " won the toss.\n";
 		return name1;
 	}
 	else {
-		cout << name2 << " won this round.\n";
+		cout << name2 << " won the toss.\n";
 		return name2;
 	}
 }
 
 void Round::playRound(Human& human, Computer& computer, Scorecard& scorecard) {
 
+	cout << "\nToss\n";
 	string tossWinner = toss(human.getName(), computer.getName());
+	cout << "\nRoll 1\n";
 	rollDice(tossWinner);
+
+	//Asks user if they would like to reroll dice after initial roll
+	cout << "Would you like to change any of your dice? (y/n): ";
+	char choice;
+	cin >> choice;
+	if (choice == 'y' || choice == 'Y') {
+		cout << "\nRoll 2\n";
+		reRoll(tossWinner);
+		//Implementing third roll
+		cout << "Would you like to change any of your dice? (y/n): ";
+		cin >> choice;
+		if (choice == 'y' || choice == 'Y') {
+			cout << "\nRoll 3\n";
+			reRoll(tossWinner);
+		}
+	}
+
+	//Ask which category
+	//int chooseCategory;
+	//cout << "Choose which category you "
+	//
+	//Display scorecard after each player finishes rolling dice
+
+
+
 
 }
 
@@ -65,11 +93,31 @@ void Round::rollDice(string name) {
 	}
 
 	// Display the dice values using a regular for-loop
-	cout << name << " rolled: ";
+	displayDice();
+	
+
+}
+
+void Round::reRoll(string name) {
+	
+	char choice;
+	for (int i = 0; i < 5; i++) {
+		cout << "\nWould you like to change dice " << i+1 << "(" << diceRoll[i] << ")? (y/n): ";
+		cin >> choice;
+		if (choice == 'y' || choice == 'Y') {
+			diceRoll[i] = rand() % 6 + 1;
+			cout << "You rolled a " << diceRoll[i] << endl;
+		}
+	}
+	displayDice();
+
+}
+
+void Round::displayDice() {
+	
+	cout << "Your dice rolled: ";
 	for (int i = 0; i < 5; ++i) {
 		cout << diceRoll[i] << " ";
 	}
 	cout << endl;
-
 }
-

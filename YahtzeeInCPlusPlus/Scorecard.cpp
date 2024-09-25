@@ -91,3 +91,12 @@ void Scorecard::updateScorecard(int index, string name, int score, int round)
 	}
 	
 }
+
+
+void Scorecard::displayAvailable() {
+	for (int i = 0; i < 12; i++) {
+		if (winners[i] == " ") {
+
+		}
+	}
+}
