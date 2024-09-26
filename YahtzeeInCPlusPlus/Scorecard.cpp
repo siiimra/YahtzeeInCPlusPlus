@@ -254,10 +254,30 @@ vector<int> Scorecard::displayAvailable(int* dice) {
 
 				}
 			}
-			else if (i == 9) {
+			else if (i == 9 || i == 10) {
+				if (checkConsecutive(dice, i-5)) {
+					availableCategories.push_back(i);
+					cout << i + 1 << ' ' << scoreboard1[i][0] << ' ' << scoreboard1[i][1] << ' ' << scoreboard1[i][2] << ' ' << scoreboard1[i][3] << ' ' << scoreboard2[i][0] << ' ' << scoreboard2[i][1] << ' ' << endl;
+				}
+			}
+			else if (i == 11) {
+				bool check = 0;
+				for (int j = 1; j <= 6; j++) {
+					bool check1 = 0;
+					for (int k = 0; k < 5; k++) {
+						if (dice[k] != j) {
+							check1 = 1;
+							break;
 
+						}
 
-				
+					}
+					if (check == 0) {
+						availableCategories.push_back(i);
+						cout << i + 1 << ' ' << scoreboard1[i][0] << ' ' << scoreboard1[i][1] << ' ' << scoreboard1[i][2] << ' ' << scoreboard1[i][3] << ' ' << scoreboard2[i][0] << ' ' << scoreboard2[i][1] << ' ' << endl;
+						break;
+					}
+				}
 			}
 		}
 	}
