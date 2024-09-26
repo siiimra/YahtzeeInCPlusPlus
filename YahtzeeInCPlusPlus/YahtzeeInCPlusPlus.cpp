@@ -89,8 +89,10 @@ int main()
 
     /*round.toss("Simra", "Computer");
     round.rollDice("Simra");*/
-
-    round.playRound(human1, computer, scorecard);
+    //int test[5] = { 4, 5, 7, 3, 2 };
+    //cout << checkConsecutive(test, 4);
+    
+    //round.playRound(human1, computer, scorecard);
    
 
     return 0;

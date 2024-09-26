@@ -76,7 +76,7 @@ void Round::playRound(Human& human, Computer& computer, Scorecard& scorecard) {
 
 	//Display scorecard after each player finishes rolling dice
 	
-	scorecard.displayAvailable();
+	scorecard.displayAll();
 	
 
 	//Ask which category the player would like to pursue

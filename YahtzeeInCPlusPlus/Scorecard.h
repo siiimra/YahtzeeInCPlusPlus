@@ -2,7 +2,10 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
 using namespace std;
+
+bool checkConsecutive(int* dice, int count1);
 
 class Scorecard
 {
@@ -20,9 +23,16 @@ public:
 
     //Function that displays scorecard
     void displayScorecard();
+
+    //calculate score
     int calcScore(string name);
+
+    //update score
     void updateScorecard(int index, string name, int score, int round);
-    void displayAvailable();
+    void displayAll();
+
+    //Takes in diceRoll, checks if it can fill category or not
+    vector<int> displayAvailable(int* dice);
 
 
 };
