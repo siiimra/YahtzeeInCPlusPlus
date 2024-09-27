@@ -14,7 +14,7 @@ protected:
 
 public:
 	//Default constructor for Player 
-	Player(string name1 = "Computer");
+	Player(string name1 = "Human");
 
 	// Selecter Functions to get name and score
 	string getName() const;

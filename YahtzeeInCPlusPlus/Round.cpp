@@ -1,5 +1,5 @@
 #include "Round.h"
-
+#include <vector>
 #include <iostream>
 #include <cstdlib>
 
@@ -51,7 +51,12 @@ string Round::toss(string name1, string name2) {
 	}
 }
 
-void Round::playRound(Human& human, Computer& computer, Scorecard& scorecard) {
+//check if given input is in the vector
+bool isNumberInVector(const vector<int>& vec, int number) {
+	return find(vec.begin(), vec.end(), number) != vec.end();
+}
+
+void Round::playRound(Human& human, Computer& computer, Scorecard& scorecard, int round) {
 
 	cout << "\nToss\n";
 	string tossWinner = toss(human.getName(), computer.getName());
@@ -77,17 +82,41 @@ void Round::playRound(Human& human, Computer& computer, Scorecard& scorecard) {
 	//Display scorecard after each player finishes rolling dice
 	
 	scorecard.displayAll();
+
+	cout << endl;
+
+	vector<int> displayGood;
+	displayGood = scorecard.displayAvailable(diceRoll);
+
 	
 
 	//Ask which category the player would like to pursue
 	int chooseCategory;
 	cout << "\nChoose a category to fill ";
 	cin >> chooseCategory;
-	while (chooseCategory == 0) {
+
+	chooseCategory--;
+
+	while (!(isNumberInVector(displayGood, chooseCategory)) && chooseCategory != -1) {
 		cout << "Please input a valid input. ";
 		cin >> chooseCategory;
 	}
+	//Running scores of both players
+	int score1, score2;
+	if (isNumberInVector(displayGood, chooseCategory)) {
+		score1 = scorecard.calcRunningScore(diceRoll, chooseCategory);
+		scorecard.updateScorecard(chooseCategory, tossWinner, score1, round);
+	}
+	scorecard.displayAll();
 
+	//SECOND ROUND 
+	string tossLoser;
+	if (tossWinner == human.getName()) {
+		tossLoser = computer.getName();
+	}
+	else if (tossWinner == computer.getName()) {
+		tossLoser = human.getName();
+	}
 
 }
 

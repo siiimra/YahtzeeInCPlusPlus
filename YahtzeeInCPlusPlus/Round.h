@@ -14,7 +14,7 @@ class Round {
 public:
 	Round();
 	string toss(string name1, string name2);
-	void playRound(Human& human, Computer& computer, Scorecard& scorecard);
+	void playRound(Human& human, Computer& computer, Scorecard& scorecard, int round);
 	void rollDice(string name);
 	void reRoll(string name);
 	void displayDice();

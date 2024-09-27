@@ -25,7 +25,7 @@ public:
     void displayScorecard();
 
     //calculate score
-    int calcScore(string name);
+    int calcFinalScore(string name);
 
     //update score
     void updateScorecard(int index, string name, int score, int round);
@@ -33,6 +33,9 @@ public:
 
     //Takes in diceRoll, checks if it can fill category or not
     vector<int> displayAvailable(int* dice);
+
+    //
+    int calcRunningScore(int* dice, int category);
 
 
 };

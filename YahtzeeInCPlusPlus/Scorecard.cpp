@@ -5,6 +5,8 @@
 #include <iostream>
 #include "Scorecard.h"
 #include <vector>
+//checks if number is in vector or not
+#include <algorithm>
 
 using namespace std;
 
@@ -96,7 +98,7 @@ void Scorecard::displayScorecard()
 	}
 }
 
-int Scorecard::calcScore(string name)
+int Scorecard::calcFinalScore(string name)
 {
 	int score = 0;
 	for (int i = 0; i < 12; i++)
@@ -130,21 +132,28 @@ void Scorecard::displayAll() {
 	}
 }
 
+
 bool checkConsecutive(int* dice, int count1) {
-	for (int i = 1; i <= 6; i++) {
-		int count = 1;
-		for (int j = i + 1; j < 5; j++) {
-			if (dice[j] == dice[j - 1] + 1) {
-				count++;
-				if (count == count1) {
-					return true;
-				}
-			}
-			else {
+	bool exists[7] = { false }; // Track which numbers exist
+
+	for (int i = 0; i < 5; i++) {
+		exists[dice[i]] = true;
+	}
+
+	// Now check for consecutive sequences
+	for (int i = 1; i <= 6 - count1 + 1; i++) {
+		bool isConsecutive = true;
+		for (int j = i; j < i + count1; j++) {
+			if (!exists[j]) {
+				isConsecutive = false;
 				break;
 			}
 		}
+		if (isConsecutive) {
+			return true;
+		}
 	}
+
 	return false;
 }
 
@@ -153,13 +162,13 @@ vector<int> Scorecard::displayAvailable(int* dice) {
 
 	vector<int> availableCategories;
 
-	cout << "\nCategory\t" << "Description\t\t\t" << "Score\t\t\t\t" << "Winner\t\t" << "Points\t" << "Round\t" << endl;
+	cout << "You can fill the following categories: " << endl;
 
 	for (int i = 0; i < 12; i++) {
-		if (scoreboard1[i][3] != " ") {
+		if (scoreboard1[i][3] == " ") {
 			if (i < 6) {
 				availableCategories.push_back(i);
-				cout << i + 1 << ' ' << scoreboard1[i][0] << ' ' << scoreboard1[i][1] << ' ' << scoreboard1[i][2] << ' ' << scoreboard1[i][3] << ' ' << scoreboard2[i][0] << ' ' << scoreboard2[i][1] << ' ' << endl;
+				cout << i + 1 << ' ' << scoreboard1[i][0] << ' ' << scoreboard1[i][1] << ' ' << scoreboard1[i][2] << ' ' << endl;
 			}
 			else if (i == 6) {
 				//Check if there are 3 same dice
@@ -179,7 +188,7 @@ vector<int> Scorecard::displayAvailable(int* dice) {
 				}
 				if (check == 1){
 					availableCategories.push_back(i);
-					cout << i + 1 << ' ' << scoreboard1[i][0] << ' ' << scoreboard1[i][1] << ' ' << scoreboard1[i][2] << ' ' << scoreboard1[i][3] << ' ' << scoreboard2[i][0] << ' ' << scoreboard2[i][1] << ' ' << endl;
+					cout << i + 1 << ' ' << scoreboard1[i][0] << ' ' << scoreboard1[i][1] << ' ' << scoreboard1[i][2] << ' ' << endl;
 				}
 			}
 			else if (i == 7) {
@@ -201,7 +210,7 @@ vector<int> Scorecard::displayAvailable(int* dice) {
 				}
 				if (check == 1) {
 					availableCategories.push_back(i);
-					cout << i + 1 << ' ' << scoreboard1[i][0] << ' ' << scoreboard1[i][1] << ' ' << scoreboard1[i][2] << ' ' << scoreboard1[i][3] << ' ' << scoreboard2[i][0] << ' ' << scoreboard2[i][1] << ' ' << endl;
+					cout << i + 1 << ' ' << scoreboard1[i][0] << ' ' << scoreboard1[i][1] << ' ' << scoreboard1[i][2] << ' ' << endl;
 
 				}
 			}
@@ -250,37 +259,64 @@ vector<int> Scorecard::displayAvailable(int* dice) {
 
 				if (check == 1 && check2 == 1) {
 					availableCategories.push_back(i);
-					cout << i + 1 << ' ' << scoreboard1[i][0] << ' ' << scoreboard1[i][1] << ' ' << scoreboard1[i][2] << ' ' << scoreboard1[i][3] << ' ' << scoreboard2[i][0] << ' ' << scoreboard2[i][1] << ' ' << endl;
+					cout << i + 1 << ' ' << scoreboard1[i][0] << ' ' << scoreboard1[i][1] << ' ' << scoreboard1[i][2] << ' ' << endl;
 
 				}
 			}
 			else if (i == 9 || i == 10) {
 				if (checkConsecutive(dice, i-5)) {
 					availableCategories.push_back(i);
-					cout << i + 1 << ' ' << scoreboard1[i][0] << ' ' << scoreboard1[i][1] << ' ' << scoreboard1[i][2] << ' ' << scoreboard1[i][3] << ' ' << scoreboard2[i][0] << ' ' << scoreboard2[i][1] << ' ' << endl;
+					cout << i + 1 << ' ' << scoreboard1[i][0] << ' ' << scoreboard1[i][1] << ' ' << scoreboard1[i][2] << ' ' << endl;
 				}
 			}
 			else if (i == 11) {
-				bool check = 0;
-				for (int j = 1; j <= 6; j++) {
-					bool check1 = 0;
-					for (int k = 0; k < 5; k++) {
-						if (dice[k] != j) {
-							check1 = 1;
-							break;
-
-						}
-
-					}
-					if (check == 0) {
-						availableCategories.push_back(i);
-						cout << i + 1 << ' ' << scoreboard1[i][0] << ' ' << scoreboard1[i][1] << ' ' << scoreboard1[i][2] << ' ' << scoreboard1[i][3] << ' ' << scoreboard2[i][0] << ' ' << scoreboard2[i][1] << ' ' << endl;
+				bool allSame = true;
+				for (int j = 1; j < 5; j++) {
+					if (dice[j] != dice[0]) {
+						allSame = false;
 						break;
 					}
+				}
+				if (allSame) {
+					availableCategories.push_back(i);
+					cout << i + 1 << ' ' << scoreboard1[i][0] << ' ' << scoreboard1[i][1] << ' ' << scoreboard1[i][2] << ' ' << scoreboard1[i][3] << ' ' << scoreboard2[i][0] << ' ' << scoreboard2[i][1] << ' ' << endl;
+				
 				}
 			}
 		}
 	}
 
 	return availableCategories;
+}
+
+int Scorecard::calcRunningScore(int* dice, int category) {
+	int score = 0;
+	if (category < 6) {
+		int count = 0;
+		for (int j = 0; j < 5; j++) {
+			if (dice[j] == category) {
+				count++;
+			}
+			score = count * category;
+		}
+	}
+	else if (category == 6 || category == 7) {
+		
+		for (int i = 0; i < 5; i++) {
+			score += dice[i];
+		}
+	}
+	else if (category == 8) {
+		score = 25;
+	}
+	else if (category == 9) {
+		score = 30;
+	}
+	else if (category == 10) {
+		score = 40;
+	}
+	else if (category == 11) {
+		score = 50;
+	}
+	return score;
 }

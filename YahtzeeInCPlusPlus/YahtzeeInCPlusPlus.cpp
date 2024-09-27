@@ -89,10 +89,10 @@ int main()
 
     /*round.toss("Simra", "Computer");
     round.rollDice("Simra");*/
-    /*int test[5] = { 4, 5, 7, 3, 2 };
-    cout << checkConsecutive(test, 4);*/
+    //int test[5] = { 5, 5, 1, 1, 2 };
+    //cout << checkConsecutive(test, 4);
     
-    //round.playRound(human1, computer, scorecard);
+    round.playRound(human1, computer, scorecard, 1);
    
 
     return 0;
