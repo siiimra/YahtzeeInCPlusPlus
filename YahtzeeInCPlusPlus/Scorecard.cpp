@@ -133,7 +133,7 @@ void Scorecard::displayAll() {
 }
 
 
-bool checkConsecutive(int* dice, int count1) {
+bool Scorecard::checkConsecutive(int* dice, int count1) {
 	bool exists[7] = { false }; // Track which numbers exist
 
 	for (int i = 0; i < 5; i++) {

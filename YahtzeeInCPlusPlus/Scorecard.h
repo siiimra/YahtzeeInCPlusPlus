@@ -29,13 +29,12 @@ public:
 
     //update score
     void updateScorecard(int index, string name, int score, int round);
+    bool checkConsecutive(int* dice, int count1);
     void displayAll();
 
     //Takes in diceRoll, checks if it can fill category or not
     vector<int> displayAvailable(int* dice);
 
-    //
     int calcRunningScore(int* dice, int category);
-
 
 };
