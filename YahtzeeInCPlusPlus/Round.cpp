@@ -92,7 +92,7 @@ void Round::playRound(Human& human, Computer& computer, Scorecard& scorecard, in
 
 	//Ask which category the player would like to pursue
 	int chooseCategory;
-	cout << "\nChoose a category to fill ";
+	cout << "\nChoose a category to fill: ";
 	cin >> chooseCategory;
 
 	chooseCategory--;

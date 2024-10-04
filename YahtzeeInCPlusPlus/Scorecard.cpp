@@ -113,10 +113,10 @@ int Scorecard::calcFinalScore(string name)
 
 void Scorecard::updateScorecard(int index, string name, int score, int round)
 {
-	if (scoreboard1[index][3] != " ") {
+	if (scoreboard1[index][3] == " ") {
 		scoreboard1[index][3] = name;
 		scoreboard2[index][0] = score;
-		scoreboard1[index][1] = round;
+		scoreboard2[index][1] = round;
 	}
 
 }
@@ -126,9 +126,9 @@ void Scorecard::displayAll() {
 	cout << "\nCategory\t" << "Description\t\t\t" << "Score\t\t\t\t" << "Winner\t\t" << "Points\t" << "Round\t" << endl;
 
 	for (int i = 0; i < 12; i++) {
-		if (scoreboard1[i][3] == " ") {
+		
 			cout << i + 1 << ' ' << scoreboard1[i][0] << ' ' << scoreboard1[i][1] << ' ' << scoreboard1[i][2] << ' ' << scoreboard1[i][3] << ' ' << scoreboard2[i][0] << ' ' << scoreboard2[i][1] << ' ' << endl;
-		}
+
 	}
 }
 
@@ -294,11 +294,11 @@ int Scorecard::calcRunningScore(int* dice, int category) {
 	if (category < 6) {
 		int count = 0;
 		for (int j = 0; j < 5; j++) {
-			if (dice[j] == category) {
+			if (dice[j] == (category+1)) {
 				count++;
 			}
-			score = count * category;
 		}
+		score = count * (category + 1);
 	}
 	else if (category == 6 || category == 7) {
 		
