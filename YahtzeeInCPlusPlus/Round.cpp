@@ -129,13 +129,96 @@ int Round::humanTurn(Human& human, Scorecard& scorecard, int round) {
 	return humanScore;
 }
 
-vector<bool> Round::shouldReroll(int* diceRoll) {
-	int storeDice[6];
+vector<int> Round::checkNotConsecutive(int* diceRoll, int countConsec) {
+	// Track which numbers exist
+	bool exists[6] = { false };
+
+	//Goes through diceRoll array, checks which of the 6 numbers exist
+	for (int i = 0; i < 5; i++) {
+		//Marks true if dice exists
+		exists[diceRoll[i]-1] = true;
+	}
+
+	// Now check for consecutive sequences
+	// Checks lowest number out of the dice, marks true if sequence is consecutive
+	for (int i = 1; i <= 6 - countConsec + 1; i++) {
+		bool isConsecutive = true;
+		// Checks if numbers from i to i+countConsec -1 to check if theres a sequence
+		for (int j = i; j < i + countConsec; j++) {
+			if (!exists[j]) {
+				isConsecutive = false;
+				break;
+			}
+		}
+		if (isConsecutive) {
+			vector<int> nonConsecutiveNum;
+			for (int k = 0; k < 5; k++) {
+				// Checks if number is smaller than smallest consec number
+				// Checks if number is larger than larger consec number
+				if (diceRoll[k] - 1 < i || diceRoll[k]-1 >= i+countConsec) {
+					//push nonconsecutive value onto vector
+					nonConsecutiveNum.push_back(diceRoll[k]);
+				}
+			}
+			return nonConsecutiveNum;
+		}
+	}
+	//returns empty vector
+	return vector<int>();
+	
+}
+
+bool Round::isFullHouse(int* dice) {
+	bool check = 0;
+	bool check2 = 0;
+	int num3 = -1;
+
+	for (int j = 1; j <= 6; j++) {
+		int count = 0;
+
+		//Move through 5 dice
+		for (int k = 0; k < 5; k++) {
+			if (dice[k] == j) {
+				count++;
+			}
+		}
+		if (count == 3) {
+			check = 1;
+			num3 = j;
+			break;
+		}
+	}
+	if (num3 == -1) {
+		return false;
+	}
+	for (int j = 1; j <= 6; j++) {
+		if (j == num3) {
+			continue;
+
+		}
+		int count = 0;
+
+		//Move through 5 dice
+		for (int k = 0; k < 5; k++) {
+			if (dice[k] == j) {
+				count++;
+			}
+		}
+		if (count == 2) {
+			check2 = 1;
+			break;
+		}
+	}
+	return check && check2;
+}
+
+vector<bool> Round::shouldReroll(int* diceRoll, Scorecard& scorecard) {
+	int storeDice[6] = {0};
 	vector<bool> rerollOrNot{ 5, false };
 
 	for (int i = 0; i < 5; i++) {
 		//stores the amount of each dice number we have
-		storeDice[diceRoll[i - 1]]++;
+		storeDice[diceRoll[i]-1]++;
 	}
 	for (int i = 0; i < 6; i++) {
 		//checks if we can get yahtzee or similar winning categories
@@ -151,14 +234,51 @@ vector<bool> Round::shouldReroll(int* diceRoll) {
 				//checks if we can get yahtzee or similar winning categories
 				if (diceRoll[j] != i+1) {
 					//tells computer to reroll the different dice/odd one out
-					rerollOrNot[i] = true;
+					rerollOrNot[j] = true;
+					break;
 				}
 			}
 			return rerollOrNot;
 		}
 
 	}
+	// Checks if we have 5 straight
+	if (scorecard.checkConsecutive(diceRoll, 5) == true) {
+		return rerollOrNot;
+	}
+	// Aiming for 5 straight if we only have 4 straight
+	if (scorecard.checkConsecutive(diceRoll, 4) == true) {
+		vector<int> roundConsecutiveNums = checkNotConsecutive(diceRoll, 4);
+		// Check if any of the non consec values are in our diceroll
+		for (int i = 0; i < 5; i++) {
+			if (isNumberInVector(roundConsecutiveNums, diceRoll[i])) {
+				rerollOrNot[i] = true;
+			}
+		}
+		return rerollOrNot;
+	}
+	// Aiming for 4 straight if we only have 3 straight
+	if (scorecard.checkConsecutive(diceRoll, 3) == true) {
+		vector<int> roundConsecutiveNums = checkNotConsecutive(diceRoll, 3);
+		// Check if any of the non consec values are in our diceroll
+		for (int i = 0; i < 5; i++) {
+			if (isNumberInVector(roundConsecutiveNums, diceRoll[i])) {
+				rerollOrNot[i] = true;
+			}
+		}
+		return rerollOrNot;
+	}
 
+	// Check if roll is a full house
+	if (isFullHouse(diceRoll)) {
+		return rerollOrNot;
+	}
+	// If theres 3 of one number and 1 of another OR theres two of one number and two of another
+	// Aim for full house
+	// 5, 5, 5, 4, 2
+	// We want to keep 5, reroll 4 or reroll 2
+	// reroll first index that is not that is kept (5)
+	
 	return rerollOrNot;
 }
 
