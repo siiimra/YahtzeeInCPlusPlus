@@ -212,10 +212,67 @@ bool Round::isFullHouse(int* dice) {
 	return check && check2;
 }
 
-//int Round::almostFullHouse(int* dice) {
-//
-//	return 1;
-//}
+int Round::almostFullHouse(int* dice) {
+	for (int j = 1; j <= 6; j++) {
+		int count = 0;
+
+		//Move through 5 dice
+		for (int k = 0; k < 5; k++) {
+			if (dice[k] == j) {
+				count++;
+			}
+		}
+		if (count == 3) {
+			//return number that has 3 of the same number
+			return j;
+		}
+	}
+	//if there arent any, theres nothing to return
+	return -1;
+}
+
+vector<int> Round::almostFullHouse2(int* dice) {
+	int num2 = -1;
+
+	for (int j = 1; j <= 6; j++) {
+		int count = 0;
+
+		//Move through 5 dice
+		for (int k = 0; k < 5; k++) {
+			if (dice[k] == j) {
+				count++;
+			}
+		}
+		if (count == 2) {
+			num2 = j; 
+			break;
+		}
+	}
+	if (num2 == -1) { 
+		return vector<int>();
+	}
+	for (int j = 1; j <= 6; j++) {
+		if (j == num2) { 
+			continue;
+
+		}
+		int count = 0;
+
+		//Move through 5 dice
+		for (int k = 0; k < 5; k++) {
+			if (dice[k] == j) {
+				count++;
+			}
+		}
+		if (count == 2) {
+			vector <int> storePairs;
+			storePairs.push_back(num2);
+			storePairs.push_back(j);
+			return storePairs;
+		}
+	}
+	return vector<int>();
+}
 
 
 vector<bool> Round::shouldReroll(int* diceRoll, Scorecard& scorecard) {
@@ -279,19 +336,33 @@ vector<bool> Round::shouldReroll(int* diceRoll, Scorecard& scorecard) {
 	else if (isFullHouse(diceRoll)) {
 		return rerollOrNot;
 	}
+
 	// If theres 3 of one number and 1 of another OR theres two of one number and two of another
 	// Aim for full house
 	// 5, 5, 5, 4, 2
 	// We want to keep 5, reroll 4 or reroll 2
 	// reroll first index that is not that is kept (5)
 
+	else if (almostFullHouse(diceRoll) != -1) {
+		int num3 = almostFullHouse(diceRoll);
+		for (int i = 0; i < 5; i++) {
+			if (diceRoll[i] != num3) {
+				rerollOrNot[i] = true;
+				return rerollOrNot;
+			}
+		}
+	}
+	// checks if there are 2 pairs of the same number
+	else if (!((almostFullHouse2(diceRoll)).empty)) {
+
+	}
 
 	
 	return rerollOrNot;
 }
 
 int Round::computerTurn(Computer& computer, Scorecard& scorecard, int round) {
-	int computerScore;
+	int computerScore = 1;
 	rollDice(computer.getName());
 
 

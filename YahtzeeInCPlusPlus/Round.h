@@ -19,13 +19,20 @@ public:
 	void rollDice(string name);
 	void reRoll(string name);
 	void displayDice();
-	int humanTurn(Human& human, Scorecard& scorecard,int round);
+	int humanTurn(Human& human, Scorecard& scorecard, int round);
 
 	//computer logic functions
-	bool isFullHouse(int* dice);
 	vector<int> checkNotConsecutive(int* diceRoll, int countConsec);
-	//int almostFullHouse(int* dice);
+
+	bool isFullHouse(int* dice);
+
+	//checks if there are 3 of the same numbers
+	int almostFullHouse(int* dice);
+
+	//checks if there are 2 pairs of number appearing twice
+	vector<int> almostFullHouse2(int* dice);
+
 	vector<bool> shouldReroll(int* diceRoll, Scorecard& scorecard);
 	int computerTurn(Computer& computer, Scorecard& scorecard, int round);
-	
+
 };
