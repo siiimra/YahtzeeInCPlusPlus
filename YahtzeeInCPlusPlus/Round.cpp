@@ -212,9 +212,15 @@ bool Round::isFullHouse(int* dice) {
 	return check && check2;
 }
 
+//int Round::almostFullHouse(int* dice) {
+//
+//	return 1;
+//}
+
+
 vector<bool> Round::shouldReroll(int* diceRoll, Scorecard& scorecard) {
 	int storeDice[6] = {0};
-	vector<bool> rerollOrNot{ 5, false };
+	vector<bool> rerollOrNot(5, false);
 
 	for (int i = 0; i < 5; i++) {
 		//stores the amount of each dice number we have
@@ -247,7 +253,7 @@ vector<bool> Round::shouldReroll(int* diceRoll, Scorecard& scorecard) {
 		return rerollOrNot;
 	}
 	// Aiming for 5 straight if we only have 4 straight
-	if (scorecard.checkConsecutive(diceRoll, 4) == true) {
+	else if (scorecard.checkConsecutive(diceRoll, 4) == true) {
 		vector<int> roundConsecutiveNums = checkNotConsecutive(diceRoll, 4);
 		// Check if any of the non consec values are in our diceroll
 		for (int i = 0; i < 5; i++) {
@@ -258,7 +264,7 @@ vector<bool> Round::shouldReroll(int* diceRoll, Scorecard& scorecard) {
 		return rerollOrNot;
 	}
 	// Aiming for 4 straight if we only have 3 straight
-	if (scorecard.checkConsecutive(diceRoll, 3) == true) {
+	else if (scorecard.checkConsecutive(diceRoll, 3) == true) {
 		vector<int> roundConsecutiveNums = checkNotConsecutive(diceRoll, 3);
 		// Check if any of the non consec values are in our diceroll
 		for (int i = 0; i < 5; i++) {
@@ -270,7 +276,7 @@ vector<bool> Round::shouldReroll(int* diceRoll, Scorecard& scorecard) {
 	}
 
 	// Check if roll is a full house
-	if (isFullHouse(diceRoll)) {
+	else if (isFullHouse(diceRoll)) {
 		return rerollOrNot;
 	}
 	// If theres 3 of one number and 1 of another OR theres two of one number and two of another
@@ -278,6 +284,8 @@ vector<bool> Round::shouldReroll(int* diceRoll, Scorecard& scorecard) {
 	// 5, 5, 5, 4, 2
 	// We want to keep 5, reroll 4 or reroll 2
 	// reroll first index that is not that is kept (5)
+
+
 	
 	return rerollOrNot;
 }

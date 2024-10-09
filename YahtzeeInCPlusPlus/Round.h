@@ -24,6 +24,7 @@ public:
 	//computer logic functions
 	bool isFullHouse(int* dice);
 	vector<int> checkNotConsecutive(int* diceRoll, int countConsec);
+	//int almostFullHouse(int* dice);
 	vector<bool> shouldReroll(int* diceRoll, Scorecard& scorecard);
 	int computerTurn(Computer& computer, Scorecard& scorecard, int round);
 	
