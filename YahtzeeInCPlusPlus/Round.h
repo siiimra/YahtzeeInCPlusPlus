@@ -32,6 +32,9 @@ public:
 	//checks if there are 2 pairs of number appearing twice
 	vector<int> almostFullHouse2(int* dice);
 
+
+	int almostThreeOfaKind(int* dice);
+
 	vector<bool> shouldReroll(int* diceRoll, Scorecard& scorecard);
 	int computerTurn(Computer& computer, Scorecard& scorecard, int round);
 

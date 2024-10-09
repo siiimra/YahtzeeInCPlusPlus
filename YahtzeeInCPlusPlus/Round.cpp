@@ -55,7 +55,7 @@ string Round::toss(string name1, string name2) {
 bool isNumberInVector(const vector<int>& vec, int number) {
 	return find(vec.begin(), vec.end(), number) != vec.end();
 }
-
+ 
 int Round::humanTurn(Human& human, Scorecard& scorecard, int round) {
 	
 	cout << "\nRoll 1\n";
@@ -274,6 +274,25 @@ vector<int> Round::almostFullHouse2(int* dice) {
 	return vector<int>();
 }
 
+int Round::almostThreeOfaKind(int* dice) {
+	for (int j = 1; j <= 6; j++) {
+		int count = 0;
+
+		//Move through 5 dice
+		for (int k = 0; k < 5; k++) {
+			if (dice[k] == j) {
+				count++;
+			}
+		}
+		if (count == 2) {
+			//return number that has 2 of the same number
+			return j;
+		}
+	}
+	//if there arent any, theres nothing to return
+	return -1;
+}
+
 
 vector<bool> Round::shouldReroll(int* diceRoll, Scorecard& scorecard) {
 	int storeDice[6] = {0};
@@ -353,12 +372,34 @@ vector<bool> Round::shouldReroll(int* diceRoll, Scorecard& scorecard) {
 		}
 	}
 	// checks if there are 2 pairs of the same number
-	else if (!((almostFullHouse2(diceRoll)).empty)) {
+	else if (!(almostFullHouse2(diceRoll).empty())) {
+		vector<int> storePairs = almostFullHouse2(diceRoll);
+		for (int i = 0; i < 5; i++) {
+			// reroll specific diceroll that isnt in the pair
+			// Finds odd one out
+			if (!(isNumberInVector(storePairs, diceRoll[i]))) {
+				rerollOrNot[i] = true;
+				return rerollOrNot;
+			}
+		}
+	}
 
+	// skipping three of a kind because we would want to get a full house
+	// skipping four of a kind because we would want yahtzee
+
+	else if (almostThreeOfaKind(diceRoll) != -1) {
+		int num2 = almostThreeOfaKind(diceRoll);
+		for (int i = 0; i < 5; i++) {
+			if (diceRoll[i] != num2) { 
+				// reroll all the dice that are not the same as the pair
+				rerollOrNot[i] = true; 
+			}
+		}
+		return rerollOrNot; 
 	}
 
 	
-	return rerollOrNot;
+	return rerollOrNot; 
 }
 
 int Round::computerTurn(Computer& computer, Scorecard& scorecard, int round) {
