@@ -124,7 +124,11 @@ int Round::humanTurn(Human& human, Scorecard& scorecard, int round) {
 		humanScore = scorecard.calcRunningScore(diceRoll, chooseCategory);
 		scorecard.updateScorecard(chooseCategory, human.getName(), humanScore, round);
 	}
-	scorecard.displayAll();
+	
+	human.setScore(scorecard.calcFinalScore(human.getName()));
+
+	scorecard.displayAll(); 
+
 
 	return humanScore;
 }
@@ -337,6 +341,23 @@ vector<bool> Round::shouldReroll(int* diceRoll, Scorecard& scorecard) {
 				rerollOrNot[i] = true;
 			}
 		}
+
+
+		for (int i = 0; i < 6; i++) {
+			// reroll number appearing more than once
+			if (storeDice[i] > 1) {
+				bool firstAppearance = false;
+				for (int j = 0; j < 5; j++) {
+					if (diceRoll[j] == i + 1) {
+						if (!firstAppearance) {
+							firstAppearance = true;
+							continue;
+						}
+						rerollOrNot[j] = true;		
+					}
+				}
+			}
+		}
 		return rerollOrNot;
 	}
 	// Aiming for 4 straight if we only have 3 straight
@@ -346,6 +367,21 @@ vector<bool> Round::shouldReroll(int* diceRoll, Scorecard& scorecard) {
 		for (int i = 0; i < 5; i++) {
 			if (isNumberInVector(roundConsecutiveNums, diceRoll[i])) {
 				rerollOrNot[i] = true;
+			}
+		}
+		for (int i = 0; i < 6; i++) {
+			// reroll number appearing more than once
+			if (storeDice[i] > 1) {
+				bool firstAppearance = false;
+				for (int j = 0; j < 5; j++) {
+					if (diceRoll[j] == i + 1) {
+						if (!firstAppearance) {
+							firstAppearance = true;
+							continue;
+						}
+						rerollOrNot[j] = true;
+					}
+				}
 			}
 		}
 		return rerollOrNot;
@@ -398,15 +434,144 @@ vector<bool> Round::shouldReroll(int* diceRoll, Scorecard& scorecard) {
 		return rerollOrNot; 
 	}
 
+	else {
+		// store numbers of 1s, 2s ... 6s in array
+		int diceNum[6] = { 0 };
+
+		for (int i = 0; i < 5; i++) {
+			diceNum[diceRoll[i] - 1]++;
+		}
+
+		// Store number with highest toss value
+		// 4, 4, 6, 6, 4
+		// Reroll until we can get as many 6's
+		int highestRoll = -1; 
+		int highestValue = -1;
+
+		for (int i = 0; i < 6; i++) {
+			int tempValue = 0;
+			tempValue = diceNum[i] * (i + 1);
+			if (tempValue >= highestValue) {
+				highestValue = tempValue;
+				highestRoll = i+1;
+			}
+		}
+		for (int i = 0; i < 5; i++) {
+			if (diceRoll[i] != highestRoll) {
+				rerollOrNot[i] = true;
+			}
+		}
+
+		return rerollOrNot;
+	}
+
 	
-	return rerollOrNot; 
 }
 
-int Round::computerTurn(Computer& computer, Scorecard& scorecard, int round) {
-	int computerScore = 1;
-	rollDice(computer.getName());
+int Round::computerTurn(Computer& computer, Scorecard& scorecard, int round)  {
+	int computerScore = 0;
+	//rollDice(computer.getName());
+	cin >> diceRoll[0] >> diceRoll[1] >> diceRoll[2] >> diceRoll[3] >> diceRoll[4];
+
+	vector<bool> diceToReroll = shouldReroll(diceRoll, scorecard);
+
+	// Check if there are dice to reroll
+	bool checkToReroll = false;
+
+	for (int i = 0; i < 5; i++) {
+		if (diceToReroll[i] == true) {
+			checkToReroll = true;
+			break;
+		}
+	}
+
+	if (!(checkToReroll)) { 
+		cout << "No need to reroll. ";
+	}
+	else {
+		cout << "Rerolling dice(s) ";
+		for (int i = 0; i < 5; i++) {
+			if (diceToReroll[i] == true) {
+				cout << i+1 << " ";
+			}
+		}
+		cout << endl;
+
+		for (int i = 0; i < 5; i++) {
+			if (diceToReroll[i] == true) {
+				diceRoll[i] = rand() % 6 + 1;
+			}
+		}
+
+		cout << "Dice rolled: ";
+		for (int i = 0; i < 5; ++i) {
+			cout << diceRoll[i] << " ";
+		}
+		cout << endl;
+		//starting second reroll
+
+		diceToReroll = shouldReroll(diceRoll, scorecard); 
+		checkToReroll = false;
+
+		for (int i = 0; i < 5; i++) {
+			if (diceToReroll[i] == true) {
+				checkToReroll = true;
+				break;
+			}
+		}
+		if (!(checkToReroll)) {
+			cout << "No need for second reroll. ";
+		}
+		else {
+			cout << "Rerolling dice(s0 ";
+			for (int i = 0; i < 5; i++) {
+				if (diceToReroll[i] == true) {
+					cout << i+1 << " ";
+				}
+			}
+			cout << endl;
+
+			for (int i = 0; i < 5; i++) {
+				if (diceToReroll[i] == true) {
+					diceRoll[i] = rand() % 6 + 1;
+				}
+			}
+		}
+		cout << "Dice rolled: ";
+		for (int i = 0; i < 5; ++i) {
+			cout << diceRoll[i] << " ";
+		}
+		cout << endl;
+	}
+
+	scorecard.displayAll();
+
+	cout << endl;
 
 
+	//displays categories tht can be filled
+	vector<int> displayGood;
+	displayGood = scorecard.displayAvailable(diceRoll);
+
+	int chosenCategory = -1;
+
+	if (displayGood.empty()) {
+		cout << "No categories can be filled. " << endl;
+	}
+	else {
+		
+		for (int i = 0; i < displayGood.size(); i++) {
+			int score = 0;
+			score = scorecard.calcRunningScore(diceRoll, displayGood[i]);
+			if (score >= computerScore) {
+				computerScore = score;
+				chosenCategory = displayGood[i];
+			}
+		}
+		scorecard.updateScorecard(chosenCategory, computer.getName(), computerScore, round);
+	}
+	computer.setScore(scorecard.calcFinalScore(computer.getName()));
+	scorecard.displayAll(); 
 
 	return computerScore;
 }
@@ -417,13 +582,17 @@ void Round::playRound(Human& human, Computer& computer, Scorecard& scorecard, in
 	string tossWinner = toss(human.getName(), computer.getName());
 	
 	if (tossWinner == human.getName()) {
-		humanTurn(human, scorecard, round);
+		//cout << "\n\nHuman Turn\n\n";
+		//humanTurn(human, scorecard, round);
+		cout << "\n\nComputer Turn\n\n";
 		computerTurn(computer, scorecard, round);
 
 	}
 	
 	else {
+		cout << "\n\nComputer Turn\n\n";
 		computerTurn(computer, scorecard, round);
+		cout << "\n\nHuman Turn\n\n";
 		humanTurn(human, scorecard, round);
 
 	}
@@ -462,7 +631,7 @@ void Round::reRoll(string name) {
 
 void Round::displayDice() {
 	
-	cout << "Your dice rolled: ";
+	cout << "Dice rolled: ";
 	for (int i = 0; i < 5; ++i) {
 		cout << diceRoll[i] << " ";
 	}
