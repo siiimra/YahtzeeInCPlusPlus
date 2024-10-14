@@ -320,3 +320,12 @@ int Scorecard::calcRunningScore(int* dice, int category) {
 	}
 	return score;
 }
+
+bool Scorecard::gameOver() {
+	for (int i = 0; i < 12; i++) {
+		if (scoreboard1[i][3] != " ") {
+			return false;
+		}
+	}
+	return true;
+}

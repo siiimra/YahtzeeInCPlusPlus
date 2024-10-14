@@ -15,6 +15,7 @@
 #include "Scorecard.h"
 #include "Computer.h"
 #include "Round.h"
+#include "Tournament.h"
 using namespace std;
 
 
@@ -71,7 +72,7 @@ int main()
     srand(time(0));
 
     ////// Initialize Human player
-    Human human1(name);
+    Human human(name);
 
     ////// Vector to store dice values (5 dice for the game)
     //vector<int> dice(5);
@@ -85,15 +86,10 @@ int main()
     Computer computer("Computer");
     //computer.rollDice(dice);
 
-    Round round;
+    Tournament tournament(human, computer); 
 
-    /*round.toss("Simra", "Computer");
-    round.rollDice("Simra");*/
-    //int test[5] = { 5, 5, 1, 1, 2 };
-    //cout << checkConsecutive(test, 4);
+    tournament.startGame();
     
-    round.playRound(human1, computer, scorecard, 1);
-   
 
     return 0;
   

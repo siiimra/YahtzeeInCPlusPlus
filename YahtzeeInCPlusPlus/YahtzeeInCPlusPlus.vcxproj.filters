@@ -33,9 +33,6 @@
     <ClCompile Include="Round.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Turn.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Serialization.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -57,9 +54,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Round.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Turn.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Serialization.h">

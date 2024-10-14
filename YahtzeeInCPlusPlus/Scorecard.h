@@ -5,7 +5,6 @@
 #include <vector>
 using namespace std;
 
-bool checkConsecutive(int* dice, int count1);
 
 class Scorecard
 {
@@ -37,5 +36,7 @@ public:
     vector<int> displayAvailable(int* dice);
 
     int calcRunningScore(int* dice, int category);
+
+    bool gameOver();
 
 };

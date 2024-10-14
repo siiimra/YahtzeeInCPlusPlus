@@ -14,42 +14,6 @@ Round::Round() {
 	}
 }
 
-string Round::toss(string name1, string name2) {
-    
-	//Dice For Human
-	int dice1 = -1;
-
-	//Dice for Computer
-    int dice2 = -1;
-
-	//Dice roll that determines the next player
-	//Re-rolls if tied
-	while (dice1 == dice2) {
-		cout << name1 << " is rolling the dice...\n";
-		dice1 = rand() % 6 + 1;
-		cout << name1 << " rolled: " << dice1;
-		cout << endl;
-
-		//Dice roll for computer
-		cout << name2 << " is rolling the dice...\n";
-		dice2 = rand() % 6 + 1;
-		cout << name2 << " rolled: " << dice2;
-		cout << endl;
-		if (dice1 == dice2) {
-			cout << "It's a tie! Re-rolling...\n";
-		}
-	}
-	
-
-	if (dice1 > dice2) {
-		cout << name1 << " won the toss.\n";
-		return name1;
-	}
-	else {
-		cout << name2 << " won the toss.\n";
-		return name2;
-	}
-}
 
 //check if given input is in the vector
 bool isNumberInVector(const vector<int>& vec, int number) {
@@ -119,7 +83,7 @@ int Round::humanTurn(Human& human, Scorecard& scorecard, int round) {
 		cin >> chooseCategory;
 	}
 	//Running scores of both players
-	int humanScore;
+	int humanScore = 0;
 	if (isNumberInVector(displayGood, chooseCategory)) {
 		humanScore = scorecard.calcRunningScore(diceRoll, chooseCategory);
 		scorecard.updateScorecard(chooseCategory, human.getName(), humanScore, round);
@@ -149,7 +113,7 @@ vector<int> Round::checkNotConsecutive(int* diceRoll, int countConsec) {
 		bool isConsecutive = true;
 		// Checks if numbers from i to i+countConsec -1 to check if theres a sequence
 		for (int j = i; j < i + countConsec; j++) {
-			if (!exists[j]) {
+			if (!exists[j-1]) {
 				isConsecutive = false;
 				break;
 			}
@@ -159,7 +123,7 @@ vector<int> Round::checkNotConsecutive(int* diceRoll, int countConsec) {
 			for (int k = 0; k < 5; k++) {
 				// Checks if number is smaller than smallest consec number
 				// Checks if number is larger than larger consec number
-				if (diceRoll[k] - 1 < i || diceRoll[k]-1 >= i+countConsec) {
+				if (diceRoll[k] < i || diceRoll[k] >= i+countConsec) {
 					//push nonconsecutive value onto vector
 					nonConsecutiveNum.push_back(diceRoll[k]);
 				}
@@ -470,8 +434,8 @@ vector<bool> Round::shouldReroll(int* diceRoll, Scorecard& scorecard) {
 
 int Round::computerTurn(Computer& computer, Scorecard& scorecard, int round)  {
 	int computerScore = 0;
-	//rollDice(computer.getName());
-	cin >> diceRoll[0] >> diceRoll[1] >> diceRoll[2] >> diceRoll[3] >> diceRoll[4];
+	rollDice(computer.getName());
+	//cin >> diceRoll[0] >> diceRoll[1] >> diceRoll[2] >> diceRoll[3] >> diceRoll[4];
 
 	vector<bool> diceToReroll = shouldReroll(diceRoll, scorecard);
 
@@ -576,25 +540,35 @@ int Round::computerTurn(Computer& computer, Scorecard& scorecard, int round)  {
 	return computerScore;
 }
 
-void Round::playRound(Human& human, Computer& computer, Scorecard& scorecard, int round) {
+int Round::playRound(Human& human, Computer& computer, Scorecard& scorecard, int round, string tossWinner) {
 
-	cout << "\nToss\n";
-	string tossWinner = toss(human.getName(), computer.getName());
+
+	int humanScore, computerScore;
 	
 	if (tossWinner == human.getName()) {
-		//cout << "\n\nHuman Turn\n\n";
-		//humanTurn(human, scorecard, round);
+		cout << "\n\nHuman Turn\n\n";
+		humanScore = humanTurn(human, scorecard, round);
 		cout << "\n\nComputer Turn\n\n";
-		computerTurn(computer, scorecard, round);
+		computerScore = computerTurn(computer, scorecard, round);
 
 	}
 	
 	else {
 		cout << "\n\nComputer Turn\n\n";
-		computerTurn(computer, scorecard, round);
+		computerScore = computerTurn(computer, scorecard, round);
 		cout << "\n\nHuman Turn\n\n";
-		humanTurn(human, scorecard, round);
+		humanScore = humanTurn(human, scorecard, round);
 
+	}
+
+	if (humanScore == computerScore) {
+		return 0;
+	}
+	else if (humanScore > computerScore) {
+		return 1;
+	}
+	else {
+		return 2;
 	}
 
 	

@@ -134,7 +134,6 @@
     <ClCompile Include="Scorecard.cpp" />
     <ClCompile Include="Serialization.cpp" />
     <ClCompile Include="Tournament.cpp" />
-    <ClCompile Include="Turn.cpp" />
     <ClCompile Include="YahtzeeInCPlusPlus.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -145,7 +144,6 @@
     <ClInclude Include="Scorecard.h" />
     <ClInclude Include="Serialization.h" />
     <ClInclude Include="Tournament.h" />
-    <ClInclude Include="Turn.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
