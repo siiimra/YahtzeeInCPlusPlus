@@ -1,6 +1,8 @@
 #pragma once
 #include <iostream>
 #include <string>
+#include "Scorecard.h"
+#include "Round.h"
 
 using namespace std;
 
@@ -11,6 +13,7 @@ protected:
 	//Member variables that grab users name and score
 	string name;
 	int score;
+
 
 public:
 	//Default constructor for Player 
@@ -26,4 +29,6 @@ public:
 
 	void setScore(int score);
 
+	//each child class has its own implementation of turn
+	virtual void turn(Scorecard& scorecard, int roundNum, Round& round) = 0;
 };

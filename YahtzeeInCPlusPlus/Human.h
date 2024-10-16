@@ -3,6 +3,8 @@
 #include <string>
 #include <vector>
 #include "Player.h"
+#include "Scorecard.h"
+#include "Round.h"
 
 using namespace std;
 
@@ -15,6 +17,8 @@ public:
 
 	//Default constructor
 	Human(string name1 = "Human");
+
+	void turn(Scorecard& scorecard, int roundNum, Round& round);
 
 
 };

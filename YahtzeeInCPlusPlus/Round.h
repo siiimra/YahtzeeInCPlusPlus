@@ -15,12 +15,11 @@ class Round {
 public:
 	Round();
 
-	void playRound(Human& human, Computer& computer, Scorecard& scorecard, int round, string tossWinner);
-
 	void rollDice(string name);
 	void reRoll(string name);
 	void displayDice();
-	int humanTurn(Human& human, Scorecard& scorecard, int round);
+
+	bool isNumberInVector(const vector<int>& vec, int number);
 
 	//computer logic functions
 	vector<int> checkNotConsecutive(int* diceRoll, int countConsec);
@@ -37,6 +36,7 @@ public:
 	int almostThreeOfaKind(int* dice);
 
 	vector<bool> shouldReroll(int* diceRoll, Scorecard& scorecard, bool human);
-	int computerTurn(Computer& computer, Scorecard& scorecard, int round);
+
+	int* getDice();
 
 };

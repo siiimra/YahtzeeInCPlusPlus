@@ -42,4 +42,6 @@ public:
     int potentialPoints(int* dice);
     string getCategory(int category);
 
+    string getWinner(int category);
+
 };

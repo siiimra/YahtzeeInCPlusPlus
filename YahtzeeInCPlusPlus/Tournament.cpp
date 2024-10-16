@@ -24,7 +24,14 @@ void Tournament::startGame() {
 	int roundNumber = 1;
 	while (!(scorecard.gameOver())) {
 		Round round;
-		round.playRound(*human, *computer, scorecard, roundNumber, tossWinner);
+		if (tossWinner == human->getName()) {
+			human->turn(scorecard, roundNumber, round);
+			computer->turn(scorecard, roundNumber, round);
+		}
+		else {
+			computer->turn(scorecard, roundNumber, round); 
+			human->turn(scorecard, roundNumber, round); 
+		}
 		if (human->getScore() == computer->getScore()) {
 			tossWinner = toss();
 		}

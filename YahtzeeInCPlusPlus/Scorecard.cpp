@@ -361,3 +361,7 @@ int Scorecard::potentialPoints(int* dice) {
 string Scorecard::getCategory(int category) {
 	return scoreboard1[category][0];
 }
+
+string Scorecard::getWinner(int category) {
+	return scoreboard1[category][3];
+}
