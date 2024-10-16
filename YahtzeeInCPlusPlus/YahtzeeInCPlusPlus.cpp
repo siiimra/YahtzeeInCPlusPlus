@@ -68,27 +68,22 @@ int main()
     cout << "Please enter your name: ";
     cin >> name;
 
-    ////// Seed random number generator
+    //Seed random number generator
     srand(time(0));
 
-    ////// Initialize Human player
+    // Initialize Human player
     Human human(name);
 
-    ////// Vector to store dice values (5 dice for the game)
-    //vector<int> dice(5);
-
-    //// Test human player rolling the dice using the regular for-loop
-    //human1.rollDice(dice);
-
     Scorecard scorecard;
-    //scorecard.displayScorecard();
 
     Computer computer("Computer");
-    //computer.rollDice(dice);
+
 
     Tournament tournament(human, computer); 
 
     tournament.startGame();
+    //scorecard.displayAll();
+    
     
 
     return 0;

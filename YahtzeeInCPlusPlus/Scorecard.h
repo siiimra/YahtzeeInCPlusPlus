@@ -39,4 +39,7 @@ public:
 
     bool gameOver();
 
+    int potentialPoints(int* dice);
+    string getCategory(int category);
+
 };

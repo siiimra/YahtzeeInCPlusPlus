@@ -21,15 +21,14 @@ void Tournament::startGame() {
 	cout << "Toss\n";
 
 	string tossWinner = toss();
-	int nextPlayer = -1;
 	int roundNumber = 1;
-	while ((scorecard.gameOver())) {
+	while (!(scorecard.gameOver())) {
 		Round round;
-		nextPlayer = round.playRound(*human, *computer, scorecard, roundNumber, tossWinner);
-		if (nextPlayer == 0) {
+		round.playRound(*human, *computer, scorecard, roundNumber, tossWinner);
+		if (human->getScore() == computer->getScore()) {
 			tossWinner = toss();
 		}
-		else if (nextPlayer == 1) {
+		else if (human->getScore() > computer->getScore()) {
 			tossWinner = computer->getName();
 		}
 		else {
@@ -37,7 +36,20 @@ void Tournament::startGame() {
 		}
 		roundNumber++;
 	}
-	
+
+
+	cout << "Total score for " << human->getName() << human->getScore() << endl;
+	cout << "Total score for " << computer->getName() << computer->getScore() << endl;
+
+	if (human->getScore() == computer->getScore()) {
+		cout << "Its a tie!";
+	}
+	else if (human->getScore() > computer->getScore()) {
+		cout << "\nWinner: " << human->getName() << " !";
+	}
+	else {
+		cout << "\nWinner: " << computer->getName() << " !";
+	}
 
 }
 

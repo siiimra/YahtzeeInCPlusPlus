@@ -15,7 +15,7 @@ class Round {
 public:
 	Round();
 
-	int playRound(Human& human, Computer& computer, Scorecard& scorecard, int round, string tossWinner);
+	void playRound(Human& human, Computer& computer, Scorecard& scorecard, int round, string tossWinner);
 
 	void rollDice(string name);
 	void reRoll(string name);
@@ -36,7 +36,7 @@ public:
 
 	int almostThreeOfaKind(int* dice);
 
-	vector<bool> shouldReroll(int* diceRoll, Scorecard& scorecard);
+	vector<bool> shouldReroll(int* diceRoll, Scorecard& scorecard, bool human);
 	int computerTurn(Computer& computer, Scorecard& scorecard, int round);
 
 };

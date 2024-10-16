@@ -29,6 +29,7 @@ Scorecard::Scorecard()
 	scoreboard1[0][2] = "Sum of dice with the number 1";
 	scoreboard1[0][3] = " ";
 
+
 	scoreboard1[1][0] = "Twos";
 	scoreboard1[1][1] = "Any combination";
 	scoreboard1[1][2] = "Sum of dice with the number 2";
@@ -86,8 +87,6 @@ Scorecard::Scorecard()
 
 }
 
-
-
 void Scorecard::displayScorecard()
 {
 	
@@ -123,11 +122,18 @@ void Scorecard::updateScorecard(int index, string name, int score, int round)
 
 void Scorecard::displayAll() {
 	
-	cout << "\nCategory\t" << "Description\t\t\t" << "Score\t\t\t\t" << "Winner\t\t" << "Points\t" << "Round\t" << endl;
+	cout << "\nCategory\t\t" << "Description\t\t\t" << "Score\t\t\t" << "Winner\t\t" << "Points\t" << "Round\t" << endl;
+	cout << "-------------------------------------------------------------------------------------------------------------" << endl;
 
 	for (int i = 0; i < 12; i++) {
 		
-			cout << i + 1 << ' ' << scoreboard1[i][0] << ' ' << scoreboard1[i][1] << ' ' << scoreboard1[i][2] << ' ' << scoreboard1[i][3] << ' ' << scoreboard2[i][0] << ' ' << scoreboard2[i][1] << ' ' << endl;
+		
+		cout << i + 1 << ' ' << scoreboard1[i][0] << "\t\t"
+			<< scoreboard1[i][1] << "\t\t"
+			<< scoreboard1[i][2] << "\t\t"
+			<< scoreboard1[i][3] << "\t" 
+			<< scoreboard2[i][0] << "\t"
+			<< scoreboard2[i][1] << endl;
 
 	}
 }
@@ -322,10 +328,36 @@ int Scorecard::calcRunningScore(int* dice, int category) {
 }
 
 bool Scorecard::gameOver() {
+
 	for (int i = 0; i < 12; i++) {
-		if (scoreboard1[i][3] != " ") {
+		if (scoreboard1[i][3] == " ") {
 			return false;
 		}
 	}
 	return true;
+}
+
+int Scorecard::potentialPoints(int* dice) {
+	
+	vector<int> availCategories = displayAvailable(dice); 
+	int score = 0;
+	int chosenCategory = -1;
+	int highestScoreCat = -1;
+
+	cout << "\nPotential points earned from each available category: " << endl;
+
+	for (int i = 0; i < availCategories.size(); i++) {
+		score = calcRunningScore(dice, availCategories[i]);
+		cout << availCategories[i]+1 << " " << scoreboard1[availCategories[i]][0] << " " << score << endl;
+		if (score > highestScoreCat) {
+			highestScoreCat = score;
+			chosenCategory = availCategories[i];
+			
+		}
+	}
+	return chosenCategory;
+}
+
+string Scorecard::getCategory(int category) {
+	return scoreboard1[category][0];
 }

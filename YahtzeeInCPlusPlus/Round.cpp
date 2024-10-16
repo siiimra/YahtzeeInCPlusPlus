@@ -45,14 +45,35 @@ int Round::humanTurn(Human& human, Scorecard& scorecard, int round) {
 	}
 
 	//Asks user if they would like to reroll dice after initial roll
-	cout << "Would you like to change any of your dice? (y/n): ";
+	
+	cout << "Would you like to change any of your dice? (y/n/? for help): "; //help
 	//char inputDice;
 	cin >> choice;
+	while (choice != 'y' && choice != 'Y' && choice != 'n' && choice != 'N' && choice != '?') {
+		cout << "Incorrect input. Try again." << endl;
+		cin >> choice;
+	}
+
+	//Help mode begins
+	if (choice == '?') {
+		cout << "\nHELP MODE" << endl << endl;
+		displayDice();
+		cout << endl;
+		int highestPoints = scorecard.potentialPoints(diceRoll);
+		cout << "Based on your current roll, you should fill " << scorecard.getCategory(highestPoints) << " because it will earn you the highest number of points. (" << scorecard.calcRunningScore(diceRoll, highestPoints) << ")" << endl;
+		shouldReroll(diceRoll, scorecard, true);
+		cout << "\nWould you like to change any of your dice? (y/n/?): ";
+		cin >> choice;
+		while (choice != 'y' && choice != 'Y' && choice != 'n' && choice != 'N') {
+			cout << "Incorrect input. Try again." << endl;
+			cin >> choice;
+		}
+	}
 	if (choice == 'y' || choice == 'Y') {
 		cout << "\nRoll 2\n";
 		reRoll(human.getName());
 		//Implementing third roll
-		cout << "Would you like to change any of your dice? (y/n): ";
+		cout << "Would you like to change any of your dice? (y/n): "; //help
 		cin >> choice;
 		if (choice == 'y' || choice == 'Y') {
 			cout << "\nRoll 3\n";
@@ -73,7 +94,7 @@ int Round::humanTurn(Human& human, Scorecard& scorecard, int round) {
 
 	//Ask which category the player would like to pursue
 	int chooseCategory;
-	cout << "\nChoose a category to fill: ";
+	cout << "\nChoose a category to fill: "; //help
 	cin >> chooseCategory;
 
 	chooseCategory--;
@@ -262,7 +283,7 @@ int Round::almostThreeOfaKind(int* dice) {
 }
 
 
-vector<bool> Round::shouldReroll(int* diceRoll, Scorecard& scorecard) {
+vector<bool> Round::shouldReroll(int* diceRoll, Scorecard& scorecard, bool human) {
 	int storeDice[6] = {0};
 	vector<bool> rerollOrNot(5, false);
 
@@ -273,20 +294,27 @@ vector<bool> Round::shouldReroll(int* diceRoll, Scorecard& scorecard) {
 	for (int i = 0; i < 6; i++) {
 		//checks if we can get yahtzee or similar winning categories
 		if (storeDice[i] == 5) {
+			if (human) {
+				cout << "We suggest to not reroll as you are eligible for a Yahtzee. " << endl;
+			}
 			return rerollOrNot;
 		}
-
 	}
 	for(int i = 0; i < 6; i++) {
 		//trying to get a yahtzee
 		if (storeDice[i] == 4) {
+			int oddOneOut = -1;
 			for (int j = 0; j < 5; j++) {
 				//checks if we can get yahtzee or similar winning categories
 				if (diceRoll[j] != i+1) {
 					//tells computer to reroll the different dice/odd one out
 					rerollOrNot[j] = true;
+					oddOneOut = j;
 					break;
 				}
+			}
+			if (human) {
+				cout << "We suggest that you reroll dice " << oddOneOut+1 << " in order to get a Yahtzee." << endl;
 			}
 			return rerollOrNot;
 		}
@@ -294,6 +322,9 @@ vector<bool> Round::shouldReroll(int* diceRoll, Scorecard& scorecard) {
 	}
 	// Checks if we have 5 straight
 	if (scorecard.checkConsecutive(diceRoll, 5) == true) {
+		if (human) {
+			cout << "We suggest you not reroll because you are eligible for Five Straight" << endl;
+		}
 		return rerollOrNot;
 	}
 	// Aiming for 5 straight if we only have 4 straight
@@ -322,6 +353,18 @@ vector<bool> Round::shouldReroll(int* diceRoll, Scorecard& scorecard) {
 				}
 			}
 		}
+
+		if (human) {
+			cout << "We suggest you reroll Dice ";
+			for (int i = 0; i < 5; i++) {
+				if (rerollOrNot[i] == true) {
+					cout << i+1 << " ";
+				}
+			}
+		
+			cout << " to get a Five Straight" << endl;
+		}
+
 		return rerollOrNot;
 	}
 	// Aiming for 4 straight if we only have 3 straight
@@ -348,11 +391,25 @@ vector<bool> Round::shouldReroll(int* diceRoll, Scorecard& scorecard) {
 				}
 			}
 		}
+		if (human) {
+			cout << "We suggest you reroll Dice ";
+			for (int i = 0; i < 5; i++) {
+				if (rerollOrNot[i] == true) {
+					cout << i+1 << " ";
+				}
+			}
+
+			cout << " to get a Four Straight" << endl;
+		}
+
 		return rerollOrNot;
 	}
 
 	// Check if roll is a full house
 	else if (isFullHouse(diceRoll)) {
+		if (human) {
+			cout << "We suggest you do not reroll since you are eligible for a Full House. " << endl;
+		}
 		return rerollOrNot;
 	}
 
@@ -367,6 +424,9 @@ vector<bool> Round::shouldReroll(int* diceRoll, Scorecard& scorecard) {
 		for (int i = 0; i < 5; i++) {
 			if (diceRoll[i] != num3) {
 				rerollOrNot[i] = true;
+				if (human) {
+					cout << "We suggest you reroll dice " << i+1 << " to aim for a Full House" << endl;
+				}
 				return rerollOrNot;
 			}
 		}
@@ -379,6 +439,9 @@ vector<bool> Round::shouldReroll(int* diceRoll, Scorecard& scorecard) {
 			// Finds odd one out
 			if (!(isNumberInVector(storePairs, diceRoll[i]))) {
 				rerollOrNot[i] = true;
+				if (human) {
+					cout << "We suggest you reroll dice " << i+1 << " to aim for a full house" << endl;
+				}
 				return rerollOrNot;
 			}
 		}
@@ -394,6 +457,16 @@ vector<bool> Round::shouldReroll(int* diceRoll, Scorecard& scorecard) {
 				// reroll all the dice that are not the same as the pair
 				rerollOrNot[i] = true; 
 			}
+		}
+		if (human) {
+			cout << "We suggest you reroll ";
+			for (int i = 0; i < 5; i++) {
+				if (rerollOrNot[i] == true) {
+					cout << i+1 << " ";
+				} 
+			}
+			 
+			cout << " to get Three of a Kind" << endl;
 		}
 		return rerollOrNot; 
 	}
@@ -426,6 +499,16 @@ vector<bool> Round::shouldReroll(int* diceRoll, Scorecard& scorecard) {
 			}
 		}
 
+		if (human) {
+			cout << "We suggest you reroll ";
+			for (int i = 0; i < 5; i++) {
+				if (rerollOrNot[i] == true) {
+					cout << i+1 << " ";
+				}
+			}
+
+			cout << " to get " << highestRoll << "s " << endl;
+		}
 		return rerollOrNot;
 	}
 
@@ -437,7 +520,7 @@ int Round::computerTurn(Computer& computer, Scorecard& scorecard, int round)  {
 	rollDice(computer.getName());
 	//cin >> diceRoll[0] >> diceRoll[1] >> diceRoll[2] >> diceRoll[3] >> diceRoll[4];
 
-	vector<bool> diceToReroll = shouldReroll(diceRoll, scorecard);
+	vector<bool> diceToReroll = shouldReroll(diceRoll, scorecard, false);
 
 	// Check if there are dice to reroll
 	bool checkToReroll = false;
@@ -474,7 +557,7 @@ int Round::computerTurn(Computer& computer, Scorecard& scorecard, int round)  {
 		cout << endl;
 		//starting second reroll
 
-		diceToReroll = shouldReroll(diceRoll, scorecard); 
+		diceToReroll = shouldReroll(diceRoll, scorecard, false); 
 		checkToReroll = false;
 
 		for (int i = 0; i < 5; i++) {
@@ -540,7 +623,7 @@ int Round::computerTurn(Computer& computer, Scorecard& scorecard, int round)  {
 	return computerScore;
 }
 
-int Round::playRound(Human& human, Computer& computer, Scorecard& scorecard, int round, string tossWinner) {
+void Round::playRound(Human& human, Computer& computer, Scorecard& scorecard, int round, string tossWinner) {
 
 
 	int humanScore, computerScore;
@@ -548,29 +631,21 @@ int Round::playRound(Human& human, Computer& computer, Scorecard& scorecard, int
 	if (tossWinner == human.getName()) {
 		cout << "\n\nHuman Turn\n\n";
 		humanScore = humanTurn(human, scorecard, round);
-		cout << "\n\nComputer Turn\n\n";
-		computerScore = computerTurn(computer, scorecard, round);
+		if (!scorecard.gameOver()) {
+			cout << "\n\nComputer Turn\n\n";
+			computerScore = computerTurn(computer, scorecard, round);
+		}
 
 	}
 	
 	else {
 		cout << "\n\nComputer Turn\n\n";
 		computerScore = computerTurn(computer, scorecard, round);
-		cout << "\n\nHuman Turn\n\n";
-		humanScore = humanTurn(human, scorecard, round);
-
+		if (!scorecard.gameOver()) {
+			cout << "\n\nHuman Turn\n\n";
+			humanScore = humanTurn(human, scorecard, round);
+		}
 	}
-
-	if (humanScore == computerScore) {
-		return 0;
-	}
-	else if (humanScore > computerScore) {
-		return 1;
-	}
-	else {
-		return 2;
-	}
-
 	
 
 }
