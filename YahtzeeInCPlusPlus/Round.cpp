@@ -446,8 +446,18 @@ void Round::reRoll(string name) {
 		cout << "\nWould you like to change dice " << i+1 << "(" << diceRoll[i] << ")? (y/n): ";
 		cin >> choice;
 		if (choice == 'y' || choice == 'Y') {
-			diceRoll[i] = rand() % 6 + 1;
-			cout << "You rolled a " << diceRoll[i] << endl;
+			cout << "\nWould you like to input your own dice? (y/n): ";
+			cin >> choice;
+			if (choice == 'y' || choice == 'Y') {
+				int customDice;
+				cout << "Enter custom dice value for dice " << i + 1 << "(" << diceRoll[i] << "): ";
+				cin >> customDice;
+				diceRoll[i] = customDice;
+			}
+			else {
+				diceRoll[i] = rand() % 6 + 1;
+				cout << "You rolled a " << diceRoll[i] << endl;
+			}
 		}
 	}
 	displayDice();

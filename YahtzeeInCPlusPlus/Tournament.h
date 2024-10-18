@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <fstream>
 #include "Scorecard.h"
 #include "Human.h"
 #include "Computer.h"
@@ -22,5 +23,10 @@ public:
 	Tournament(Human& human, Computer& computer);
 	void startGame();
 	string toss();
+
+	//serialization functions
+	void writeFile(const int roundNum);
+
+	void readFile(int& roundNum, string fileName, Human& human); 
 
 };

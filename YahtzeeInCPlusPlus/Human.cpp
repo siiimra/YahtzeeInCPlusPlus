@@ -29,6 +29,10 @@ void Human::turn(Scorecard& scorecard, int roundNum, Round& round) {
 		for (int i = 0; i < 5; i++) {
 			cout << "Enter dice " << i + 1 << ": ";
 			cin >> diceChoice;
+			while (diceChoice < 1 || diceChoice > 6) {
+				cout << "Invalid dice input. Dice can only be in range 1-6. ";
+				cin >> diceChoice;
+			}
 			(round.getDice())[i] = diceChoice;
 		}
 

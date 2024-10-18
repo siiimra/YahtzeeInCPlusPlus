@@ -43,5 +43,14 @@ public:
     string getCategory(int category);
 
     string getWinner(int category);
+    void setWinner(int category, string winner);
+
+    int getScore(int category);
+    void setScore(int category, int score);
+    int getRound(int category);
+    void setRound(int category, int round); 
+
+
+
 
 };

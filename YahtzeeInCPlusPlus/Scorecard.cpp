@@ -365,3 +365,21 @@ string Scorecard::getCategory(int category) {
 string Scorecard::getWinner(int category) {
 	return scoreboard1[category][3];
 }
+
+void Scorecard::setWinner(int category, string winner) {
+	scoreboard1[category][3] = winner; 
+}
+
+int Scorecard::getScore(int category) {
+	return scoreboard2[category][0];
+}
+void Scorecard::setScore(int category, int score) {
+	scoreboard2[category][0] = score;
+}
+
+int Scorecard::getRound(int category) {
+	return scoreboard2[category][1];
+}
+void Scorecard::setRound(int category, int round) {
+	scoreboard2[category][1] = round;
+}
