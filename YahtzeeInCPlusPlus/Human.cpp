@@ -47,7 +47,7 @@ void Human::turn(Scorecard& scorecard, int roundNum, Round& round) {
 				cin >> diceChoice;
 			}
 			// populate the dice roll array with the custom values
-			(round.getDice())[i] = diceChoice;
+			(round.setDice(diceChoice, i));
 		}
 
 	}
@@ -171,13 +171,14 @@ void Human::turn(Scorecard& scorecard, int roundNum, Round& round) {
 		cout << "Please input a valid input. ";
 		cin >> chooseCategory;
 	}
-	if (chooseCategory == -2) {
+	if (chooseCategory == -3) {
 		cout << "\nHELP MODE\n";
 		int highestPoints = scorecard.potentialPoints(round.getDice());
 		cout << "\nBased on your current roll, you should fill " << scorecard.getCategory(highestPoints) << " because it will earn you the highest number of points. (" << scorecard.calcRunningScore(round.getDice(), highestPoints) << ")" << endl;
-		cout << "\nChoose a category to fill (-3 if no category can be filled): ";
+		cout << "\nChoose a category to fill (-1 if no category can be filled): ";
 		cin >> chooseCategory;
-		while (!(round.isNumberInVector(displayGood, chooseCategory)) && chooseCategory != -1) { 
+		chooseCategory--;
+		while (!(round.isNumberInVector(displayGood, chooseCategory)) && chooseCategory != -2) { 
 			cout << "Please input a valid input. ";
 			cin >> chooseCategory;
 		}

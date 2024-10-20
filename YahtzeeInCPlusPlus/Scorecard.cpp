@@ -341,7 +341,7 @@ bool Scorecard::gameOver() {
 int Scorecard::potentialPoints(int* dice, vector<int> availCategories) {
 	
 	if (availCategories.empty()) {
-		vector<int> availCategories = displayAvailable(dice); 
+		availCategories = displayAvailable(dice); 
 	}
 
 	

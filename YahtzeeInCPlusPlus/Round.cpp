@@ -560,3 +560,9 @@ int* Round::getDice() {
 
 	return diceRoll;
 }
+
+void Round::setDice(int dice, int diceNumber) {
+	if (dice > 0 && dice < 7) {
+		diceRoll[diceNumber] = dice;
+	}
+}

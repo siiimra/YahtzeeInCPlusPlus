@@ -42,7 +42,7 @@ void Computer::turn(Scorecard& scorecard, int roundNum, Round& round) {
 
 		for (int i = 0; i < 5; i++) {
 			if (diceToReroll[i] == true) {
-				round.getDice()[i] = rand() % 6 + 1;
+				round.setDice(rand() % 6 + 1, i);
 			}
 		}
 		// Announce new dice
@@ -83,7 +83,7 @@ void Computer::turn(Scorecard& scorecard, int roundNum, Round& round) {
 
 			for (int i = 0; i < 5; i++) {
 				if (diceToReroll[i] == true) {
-					round.getDice()[i] = rand() % 6 + 1;
+					round.setDice(rand() % 6 + 1, i);
 				}
 			}
 		}

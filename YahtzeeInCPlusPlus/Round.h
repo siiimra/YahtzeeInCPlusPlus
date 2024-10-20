@@ -38,6 +38,7 @@ public:
 	vector<bool> shouldReroll(int* diceRoll, Scorecard& scorecard, bool human);
 
 	int* getDice();
+	void setDice(int dice, int diceNumber);
 
 
 };
