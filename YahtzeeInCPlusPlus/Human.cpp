@@ -84,7 +84,9 @@ void Human::turn(Scorecard& scorecard, int roundNum, Round& round) {
 			round.displayDice();
 			cout << endl;
 			int highestPoints = scorecard.potentialPoints(round.getDice());
-			cout << "Based on your current roll, you should fill " << scorecard.getCategory(highestPoints) << " because it will earn you the highest number of points. (" << scorecard.calcRunningScore(round.getDice(), highestPoints) << ")" << endl;
+			if (highestPoints != -1 ){
+				cout << "Based on your current roll, you should fill " << scorecard.getCategory(highestPoints) << " because it will earn you the highest number of points. (" << scorecard.calcRunningScore(round.getDice(), highestPoints) << ")" << endl;
+			}
 			round.shouldReroll(round.getDice(), scorecard, true);
 			cout << "\nWould you like to change any of your dice? (y/n): ";
 			cin >> choice;
@@ -117,8 +119,9 @@ void Human::turn(Scorecard& scorecard, int roundNum, Round& round) {
 	cin >> chooseCategory;
 
 
+	chooseCategory--;
 
-	while (!(round.isNumberInVector(displayGood, chooseCategory)) && chooseCategory != -1 && chooseCategory != -2) {
+	while (!(round.isNumberInVector(displayGood, chooseCategory)) && chooseCategory != -3 && chooseCategory != -2) {
 		cout << "Please input a valid input. ";
 		cin >> chooseCategory;
 	}
@@ -126,14 +129,13 @@ void Human::turn(Scorecard& scorecard, int roundNum, Round& round) {
 		cout << "\nHELP MODE\n";
 		int highestPoints = scorecard.potentialPoints(round.getDice());
 		cout << "\nBased on your current roll, you should fill " << scorecard.getCategory(highestPoints) << " because it will earn you the highest number of points. (" << scorecard.calcRunningScore(round.getDice(), highestPoints) << ")" << endl;
-		cout << "\nChoose a category to fill (-1 if no category can be filled): ";
+		cout << "\nChoose a category to fill (-3 if no category can be filled): ";
 		cin >> chooseCategory;
 		while (!(round.isNumberInVector(displayGood, chooseCategory)) && chooseCategory != -1) { 
 			cout << "Please input a valid input. ";
 			cin >> chooseCategory;
 		}
 	}
-	chooseCategory--;
 	//Running scores of both players
 	int humanScore = 0;
 	if (round.isNumberInVector(displayGood, chooseCategory)) {

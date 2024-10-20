@@ -1,8 +1,10 @@
 #pragma once
 #include <iostream>
 #include <string>
-#include "Scorecard.h"
-#include "Round.h"
+
+// delcaring the two classes a player uses
+class Scorecard;
+class Round;
 
 using namespace std;
 

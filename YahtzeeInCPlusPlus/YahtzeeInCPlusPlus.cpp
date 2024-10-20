@@ -34,35 +34,11 @@ Algorithm:
             3) Says input is invalid if user inputs anything other than 1 or 2
 Reference: none
 ********************************************************************* */
-int selectMenu(int& chooseToPlay) {
-    if (chooseToPlay == 1) {
-        cout << "Starting a new game...\n\n";
-        return 1; // Start the game
-    }
-    else if (chooseToPlay == 2) {
-        cout << "Goodbye!\n";
-        exit(0); // Exit the game
-    }
-    else {
-        cout << "Invalid input. Please enter a valid option: ";
-        cin >> chooseToPlay;
-        return selectMenu(chooseToPlay); // Recurse until valid input
-    }
-}
 
 
 int main()
 {
-    ////Variable that allows user to choose to select new game or exit game
-    //int chooseToPlay;
-    //srand(time(0));
 
-    //////Display welcome screen with options
-    //cout << "Welcome! Would you like to begin a game of Yahtzee?" << endl;
-    //cout << "1. New Game " << "2. Exit Game" << endl;
-    //cout << "What action would you like to take? ";
-    //cin >> chooseToPlay;
-    //selectMenu(chooseToPlay);
 
     string name;
     cout << "Please enter your name: ";

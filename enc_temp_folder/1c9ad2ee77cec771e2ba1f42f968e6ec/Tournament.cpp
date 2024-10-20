@@ -64,9 +64,7 @@ void Tournament::startGame() {
 			cout << "\nHuman Turn " << endl;
 			human->turn(scorecard, roundNumber, round); 
 		}
-		cout << "Total score for " << human->getName() << human->getScore() << endl;
-		cout << "Total score for " << computer->getName() << computer->getScore() << endl;
-
+		
 		roundNumber++;
 		char saveState;
 		cout << "Would you quit and save your progress? (y/n): ";

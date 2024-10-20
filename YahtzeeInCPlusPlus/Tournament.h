@@ -27,6 +27,9 @@ public:
 	//serialization functions
 	void writeFile(const int roundNum);
 
-	void readFile(int& roundNum, string fileName, Human& human); 
+	void readFile(int& roundNum, string fileName); 
+
+	void selectMenu(int& roundNumber);
+
 
 };

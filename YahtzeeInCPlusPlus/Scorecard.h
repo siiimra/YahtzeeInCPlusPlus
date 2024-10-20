@@ -39,7 +39,7 @@ public:
 
     bool gameOver();
 
-    int potentialPoints(int* dice);
+    int potentialPoints(int* dice, vector<int> availCategories = vector<int>());
     string getCategory(int category);
 
     string getWinner(int category);

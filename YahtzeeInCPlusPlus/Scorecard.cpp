@@ -168,7 +168,7 @@ vector<int> Scorecard::displayAvailable(int* dice) {
 
 	vector<int> availableCategories;
 
-	cout << "You can fill the following categories: " << endl;
+	cout << "The following categories can be filled: " << endl;
 
 	for (int i = 0; i < 12; i++) {
 		if (scoreboard1[i][3] == " ") {
@@ -337,9 +337,13 @@ bool Scorecard::gameOver() {
 	return true;
 }
 
-int Scorecard::potentialPoints(int* dice) {
+int Scorecard::potentialPoints(int* dice, vector<int> availCategories) {
 	
-	vector<int> availCategories = displayAvailable(dice); 
+	if (availCategories.empty()) {
+		vector<int> availCategories = displayAvailable(dice); 
+	}
+
+	
 	int score = 0;
 	int chosenCategory = -1;
 	int highestScoreCat = -1;
