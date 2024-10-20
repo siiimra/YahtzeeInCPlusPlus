@@ -20,9 +20,6 @@ public:
 
     Scorecard();
 
-    //Function that displays scorecard
-    void displayScorecard();
-
     //calculate score
     int calcFinalScore(string name);
 

@@ -5,10 +5,12 @@
 #include <iostream>
 #include "Scorecard.h"
 #include <vector>
+#include <iomanip>
 //checks if number is in vector or not
 #include <algorithm>
 
 using namespace std;
+
 
 Scorecard::Scorecard()
 {
@@ -62,7 +64,7 @@ Scorecard::Scorecard()
 
 	scoreboard1[7][0] = "Four of a Kind";
 	scoreboard1[7][1] = "At least four dice the same";
-	scoreboard1[7][2] = "Sum of all dices ";
+	scoreboard1[7][2] = "Sum of all dices";
 	scoreboard1[7][3] = " ";
 
 	scoreboard1[8][0] = "Full House";
@@ -87,15 +89,7 @@ Scorecard::Scorecard()
 
 }
 
-void Scorecard::displayScorecard()
-{
-	
 
-	for (int i = 0; i < 12; i++)
-	{
-		cout << i+1 << ' ' << scoreboard1[i][0] << ' ' << scoreboard1[i][1] << ' ' << scoreboard1[i][2] << ' ' << scoreboard1[i][3] << ' ' << scoreboard2[i][0] << ' ' << scoreboard2[i][1] << ' ' << endl;
-	}
-}
 
 int Scorecard::calcFinalScore(string name)
 {
@@ -121,18 +115,25 @@ void Scorecard::updateScorecard(int index, string name, int score, int round)
 }
 
 void Scorecard::displayAll() {
-	
-	cout << "\nCategory\t\t" << "Description\t\t\t" << "Score\t\t\t" << "Winner\t\t" << "Points\t" << "Round\t" << endl;
-	cout << "-------------------------------------------------------------------------------------------------------------" << endl;
+
+
+	cout << endl;
+	cout << setw(16) << "Category" << setw(40) << "Description" << setw(30) << "Score" << setw(25) << "Winner" << setw(10) << "Points" << setw(7) << "Round" << endl;
+	cout << "----------------------------------------------------------------------------------------------------------------------------------" << endl;
 
 	for (int i = 0; i < 12; i++) {
 		
-		
-		cout << i + 1 << ' ' << scoreboard1[i][0] << "\t\t"
-			<< scoreboard1[i][1] << "\t\t"
-			<< scoreboard1[i][2] << "\t\t"
-			<< scoreboard1[i][3] << "\t" 
-			<< scoreboard2[i][0] << "\t"
+		if (i < 9) {
+			cout << " " << i + 1;
+		}
+		else {
+			cout << i + 1;
+		}
+		cout << setw(16) << scoreboard1[i][0] << setw(40)
+			<< scoreboard1[i][1] << setw(40)
+			<< scoreboard1[i][2] << setw(15)
+			<< scoreboard1[i][3] << setw(10)
+			<< scoreboard2[i][0] << setw(7)
 			<< scoreboard2[i][1] << endl;
 
 	}

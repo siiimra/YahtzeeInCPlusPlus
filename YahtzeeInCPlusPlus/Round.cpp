@@ -285,16 +285,20 @@ vector<bool> Round::shouldReroll(int* diceRoll, Scorecard& scorecard, bool human
 				for (int j = 0; j < 5; j++) {
 					// Checks if the current diceRoll value matches the current dice face value
 					if (diceRoll[j] == i + 1) {
+						// If first appearance was previously false, set to true
+						// since it has now been detected
 						if (!firstAppearance) {
 							firstAppearance = true;
 							continue;
 						}
+						// For all other instances other than the first appearance, attempt to reroll
 						rerollOrNot[j] = true;		
 					}
 				}
 			}
 		}
-
+		// Help mode - if player is human and asks for help...
+		// Suggest human to reroll non consecutive and repeating numbers
 		if (human) {
 			cout << "We suggest you reroll Dice ";
 			for (int i = 0; i < 5; i++) {
@@ -306,9 +310,12 @@ vector<bool> Round::shouldReroll(int* diceRoll, Scorecard& scorecard, bool human
 			cout << " to get a Five Straight" << endl;
 		}
 
+		// return the die to reroll
 		return rerollOrNot;
 	}
-	// Aiming for 4 straight if we only have 3 straight
+
+
+	// Aiming for 4 straight if we only have 3 of a kind
 	else if (scorecard.checkConsecutive(diceRoll, 3) == true && scorecard.getWinner(9) == " ") {
 		vector<int> roundConsecutiveNums = checkNotConsecutive(diceRoll, 3);
 		// Check if any of the non consec values are in our diceroll
@@ -550,6 +557,5 @@ void Round::displayDice() {
 }
 
 int* Round::getDice() {
-	// returns values of dice
 	return diceRoll;
 }
