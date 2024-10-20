@@ -557,5 +557,6 @@ void Round::displayDice() {
 }
 
 int* Round::getDice() {
+
 	return diceRoll;
 }

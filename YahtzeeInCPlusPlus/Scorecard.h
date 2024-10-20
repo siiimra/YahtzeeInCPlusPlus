@@ -37,14 +37,15 @@ public:
     bool gameOver();
 
     int potentialPoints(int* dice, vector<int> availCategories = vector<int>());
-    string getCategory(int category);
+    string getCategory(int category) const;
 
-    string getWinner(int category);
+    string getWinner(int category) const;
     void setWinner(int category, string winner);
 
-    int getScore(int category);
+    int getScore(int category) const;
     void setScore(int category, int score);
-    int getRound(int category);
+
+    int getRound(int category) const;
     void setRound(int category, int round); 
 
 

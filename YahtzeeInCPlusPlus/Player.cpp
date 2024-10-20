@@ -20,7 +20,9 @@
 	}
 
 	void Player::setScore(int score) {
-		this->score = score;
+		if (score >= 0)
+			this->score = score;
+		
 	}
 
 

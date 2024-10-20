@@ -94,12 +94,8 @@ void Computer::turn(Scorecard& scorecard, int roundNum, Round& round) {
 		cout << endl;
 	}
 
-	//scorecard.displayAll();
 
-	//cout << endl;
-
-
-	////displays categories tht can be filled
+	// Displays categories tht can be filled
 	vector<int> displayGood;
 	displayGood = scorecard.displayAvailable(round.getDice());
 

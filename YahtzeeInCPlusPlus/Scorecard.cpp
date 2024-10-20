@@ -363,28 +363,31 @@ int Scorecard::potentialPoints(int* dice, vector<int> availCategories) {
 	return chosenCategory;
 }
 
-string Scorecard::getCategory(int category) {
+string Scorecard::getCategory(int category) const {
 	return scoreboard1[category][0];
 }
 
-string Scorecard::getWinner(int category) {
+string Scorecard::getWinner(int category) const {
 	return scoreboard1[category][3];
 }
 
 void Scorecard::setWinner(int category, string winner) {
-	scoreboard1[category][3] = winner; 
+	if (winner != " ")
+		scoreboard1[category][3] = winner; 
 }
 
-int Scorecard::getScore(int category) {
+int Scorecard::getScore(int category) const  {
 	return scoreboard2[category][0];
 }
-void Scorecard::setScore(int category, int score) {
-	scoreboard2[category][0] = score;
+void Scorecard::setScore(int category, int score)  {
+	if (score >= 0)
+		scoreboard2[category][0] = score;
 }
 
-int Scorecard::getRound(int category) {
+int Scorecard::getRound(int category) const {
 	return scoreboard2[category][1];
 }
 void Scorecard::setRound(int category, int round) {
-	scoreboard2[category][1] = round;
+	if (round >= 0)
+		scoreboard2[category][1] = round;
 }

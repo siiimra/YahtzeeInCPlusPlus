@@ -58,9 +58,9 @@ void Human::turn(Scorecard& scorecard, int roundNum, Round& round) {
 
 	//Asks user if they would like to reroll dice after initial roll
 	cout << "Would you like to change any of your dice? (y/n/? for help): ";
-	// get input from user if they would like to keep or reroll dice
+	// Get input from user if they would like to keep or reroll dice
 	cin >> choice;
-	// input validation, prompt for valid input if the input is not y/Y, n/N, or ?
+	// Input validation, prompt for valid input if the input is not y/Y, n/N, or ?
 	while (choice != 'y' && choice != 'Y' && choice != 'n' && choice != 'N' && choice != '?') {
 		cout << "Incorrect input. Try again." << endl;
 		cin >> choice;
@@ -74,23 +74,36 @@ void Human::turn(Scorecard& scorecard, int roundNum, Round& round) {
 		round.displayDice(); 
 		cout << endl;
 
+		// Variable that holds the category highest potential points earned, returned by potential points function
 		int highestPoints = scorecard.potentialPoints(round.getDice());
+		// Suggests user which category to fill based on current roll based on the highest points variable and output the potential points
 		cout << "Based on your current roll, you should fill " << scorecard.getCategory(highestPoints) << " because it will earn you the highest number of points. (" << scorecard.calcRunningScore(round.getDice(), highestPoints) << ")" << endl;
+		
+		// If more points can potentially be earned, use shouldReroll human functionalities to suggest which dice to re-roll and which category
+		// to aim for
 		round.shouldReroll(round.getDice(), scorecard, true);
+
+		// Ask the user if they would like to change any dice
 		cout << "\nWould you like to change any of your dice? (y/n): ";
+		// Recieve user input -- see if human wants to re-roll or stand
 		cin >> choice;
+		// Input validation if human inputs anything other than y/Y, n/N
 		while (choice != 'y' && choice != 'Y' && choice != 'n' && choice != 'N') {
 			cout << "Incorrect input. Try again." << endl;
 			cin >> choice;
 		}
 	}
+
+	// Go in for second roll if human decides to re-roll
 	if (choice == 'y' || choice == 'Y') {
 		cout << "\nRoll 2\n";
+		// Display dice after asking user for intentional or random regeneration of dice for each dice
 		round.reRoll(name);
-		//Implementing third roll
+		// Asks user if they would like to try for a third re roll
 		cout << "Would you like to change any of your dice? (y/n/? for help): ";
 		//char inputDice;
 		cin >> choice;
+		// Input validation, prompt for valid input if the input is not y/Y, n/N, or ?
 		while (choice != 'y' && choice != 'Y' && choice != 'n' && choice != 'N' && choice != '?') {
 			cout << "Incorrect input. Try again." << endl;
 			cin >> choice;
@@ -99,21 +112,31 @@ void Human::turn(Scorecard& scorecard, int roundNum, Round& round) {
 		//HELP MODE
 		if (choice == '?') {
 			cout << "\nHELP MODE" << endl << endl;
+			// Display current dice user has
 			round.displayDice();
 			cout << endl;
+			// Variable that holds the category highest potential points earned, returned by potential points function
 			int highestPoints = scorecard.potentialPoints(round.getDice());
 			if (highestPoints != -1 ){
+				// Suggests user which category to fill based on current roll based on the highest points variable and output the potential points
 				cout << "Based on your current roll, you should fill " << scorecard.getCategory(highestPoints) << " because it will earn you the highest number of points. (" << scorecard.calcRunningScore(round.getDice(), highestPoints) << ")" << endl;
 			}
+
+			// If more points can potentially be earned, use shouldReroll human functionalities to suggest which dice to re-roll and which category
+			// to aim for
 			round.shouldReroll(round.getDice(), scorecard, true);
+
+			// Ask the user if they would like to change any dice
 			cout << "\nWould you like to change any of your dice? (y/n): ";
+			// Get input from user if they would like to keep or reroll dice
 			cin >> choice;
+			// Input validation, prompt for valid input if the input is not y/Y, n/N
 			while (choice != 'y' && choice != 'Y' && choice != 'n' && choice != 'N') {
 				cout << "Incorrect input. Try again." << endl;
 				cin >> choice;
 			}
 		}
-
+		// If user decides to re roll again, display dice after asking user for intentional or random regeneration of dice for each dice
 		if (choice == 'y' || choice == 'Y') {
 			cout << "\nRoll 3\n";
 			round.reRoll(name);
@@ -121,24 +144,29 @@ void Human::turn(Scorecard& scorecard, int roundNum, Round& round) {
 	}
 
 	//Display scorecard after each player finishes rolling dice
-
 	scorecard.displayAll();
 
 	cout << endl;
 
+	// int vector that holds the current available categories
 	vector<int> displayGood;
+	// vector assigned to displayAvailable function for current categories
 	displayGood = scorecard.displayAvailable(round.getDice());
 
 
-
-	//Ask which category the player would like to pursue
+	// variable that takes input for which category the player would like to pursue
 	int chooseCategory;
+	// Prompt user to choose a category to fill
+	// They can also enter -2 to enter help mode
+	// If no category can be filled, -1 can be entered to move on to next player/round/turn
 	cout << "\nChoose a category to fill (-2 for help, -1 if no category can be filled): ";
+	// take input for desired category that human wants to fill
 	cin >> chooseCategory;
-
 
 	chooseCategory--;
 
+
+	// 
 	while (!(round.isNumberInVector(displayGood, chooseCategory)) && chooseCategory != -3 && chooseCategory != -2) {
 		cout << "Please input a valid input. ";
 		cin >> chooseCategory;
