@@ -2,7 +2,7 @@
 //* Name:  Simra Ahmed
 //* Project : Yahtzee in C++
 //* Class : CMPS 366 01 Organization of Programming Languages
-//* Date : 9/24/2024
+//* Date : 10/21/2024
 //************************************************************
 
 
@@ -18,27 +18,21 @@
 #include "Tournament.h"
 using namespace std;
 
-
 /* *********************************************************************
-Function Name: selectMenu
-Purpose: To calculate the average grade in a class
-Parameters:
-            chooseToPlay - int value given by the user to determine if
-            they want to play a game of Yahtzee or not
-Return Value: 
-            Status code for game
-            Function again if input is invalid
+Function Name: main
+Purpose: To initialize and start a game of Yahtzee between a human and a computer.
+Parameters: None
+Return Value: Integer value indicating the success of the program execution (0 for successful completion).
 Algorithm:
-            1) Generates a new game if user chooses yes
-            2) Exits program if user says no
-            3) Says input is invalid if user inputs anything other than 1 or 2
-Reference: none
+    1) Prompt the user to enter their name.
+    2) Seed the random number generator to ensure randomness for the dice rolls.
+    3) Create instances of the Human player and Computer player.
+    4) Create a Tournament object that manages the game and start the game by calling the startGame() function.
+Reference: None
 ********************************************************************* */
-
 
 int main()
 {
-
 
     string name;
     cout << "Please enter your name: ";
@@ -49,17 +43,14 @@ int main()
 
     // Initialize Human player
     Human human(name);
-
-    Scorecard scorecard;
-
+ 
+    // Initialize Computer player
     Computer computer("Computer");
 
-
+    // Create tournament -- cannot exist without human and player objects
     Tournament tournament(human, computer); 
 
-    tournament.startGame();
-    //scorecard.displayAll();
-    
+    tournament.startGame();    
     
 
     return 0;

@@ -32,11 +32,13 @@ public:
     //Takes in diceRoll, checks if it can fill category or not
     vector<int> displayAvailable(int* dice);
 
+
     int calcRunningScore(int* dice, int category);
 
     bool gameOver();
 
-    int potentialPoints(int* dice, vector<int> availCategories = vector<int>());
+    int getPotentialPoints(int* dice, vector<int> availCategories = vector<int>());
+
     string getCategory(int category) const;
 
     string getWinner(int category) const;

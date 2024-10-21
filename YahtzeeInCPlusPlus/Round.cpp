@@ -6,8 +6,22 @@
 
 using namespace std;
 
+
+/* *********************************************************************
+Function Name: Round (Constructor)
+Purpose: To initialize a Round object, including allocating memory for five dice and setting their initial values.
+Parameters: None
+Return Value: None (Constructor)
+Algorithm:
+	1) Allocate memory for an array of five dice.
+	2) Initialize each dice value to -1, indicating no value has been set yet.
+Reference: None
+********************************************************************* */
+
 Round::Round() {
 	
+	diceRoll = new int[5];
+
 	//For loop for 5 dice, initializing them with no value
 	for (int i = 0; i < 5; i++) {
 		diceRoll[i] = -1;
@@ -15,11 +29,40 @@ Round::Round() {
 }
 
 
-//check if given input is in the vector
-bool Round::isNumberInVector(const vector<int>& vec, int number) {
+/* *********************************************************************
+Function Name: checkIsNumberInVector
+Purpose: To check if a given number is present in a vector.
+Parameters:
+	- vec (const vector<int>&): A reference to a vector of integers that we need to search in.
+	- number (int): The number to be searched within the vector.
+Return Value: A boolean value indicating whether the number is present in the vector.
+Algorithm:
+	1) Use the find function to search for the number in the vector.
+	2) Return true if the number is found, otherwise return false.
+Reference: Tutor
+********************************************************************* */
+
+bool Round::checkIsNumberInVector(const vector<int>& vec, int number) {
+	// Check if the number given is in the evctore, insuring its not at the end 
 	return find(vec.begin(), vec.end(), number) != vec.end();
 }
  
+/* *********************************************************************
+Function Name: checkNotConsecutive
+Purpose: To determine which numbers in a given dice roll are not part of a consecutive sequence.
+Parameters:
+    - diceRoll (int*): A pointer to an array of integers representing the dice roll values.
+    - countConsec (int): The number of consecutive values to check for.
+Return Value: A vector of integers representing the numbers in the dice roll that are not part of a consecutive sequence.
+Algorithm:
+    1) Create a boolean array to track which numbers (1-6) exist in the dice roll.
+    2) Mark the existing numbers in the boolean array.
+    3) Iterate through possible starting points to check for consecutive sequences.
+    4) If a consecutive sequence is found, identify the non-consecutive numbers in the dice roll.
+    5) Return a vector of non-consecutive numbers.
+    6) If no consecutive sequence is found, return an empty vector.
+Reference: Tutor
+********************************************************************* */
 
 vector<int> Round::checkNotConsecutive(int* diceRoll, int countConsec) {
 	// Track which numbers exist
@@ -60,34 +103,66 @@ vector<int> Round::checkNotConsecutive(int* diceRoll, int countConsec) {
 	
 }
 
-bool Round::isFullHouse(int* dice) {
-	bool check = 0;
-	bool check2 = 0;
-	int num3 = -1;
+/* *********************************************************************
+Function Name: checkIfFullHouse
+Purpose: To determine if the current set of dice constitutes a Full House.
+Parameters:
+	- dice (int*): A pointer to the array representing the dice values.
+Return Value: A boolean value indicating whether the dice form a Full House (true) or not (false).
+Algorithm:
+	1) Loop through possible dice values to check if there is a set of three of a kind.
+	2) If found, check for the presence of a pair with a different value.
+	3) Return true if both a three of a kind and a pair are present, otherwise return false.
+Reference: Tutor
+********************************************************************* */
 
+bool Round::checkIfFullHouse(int* dice) {
+	// Flag that checks if there are 3 of a kind
+	bool hasThreeOfAKind = 0;
+
+	// Flag that checks if there are 2 of a kind as well
+	bool hasPair = 0;
+
+	// int value that stores 3 of a kind value
+	int threeOfAKindValue = -1;
+
+	// Loop through possible dice values
 	for (int j = 1; j <= 6; j++) {
+		// Count variable that holds number of times a value occurs
 		int count = 0;
 
 		//Move through 5 dice
 		for (int k = 0; k < 5; k++) {
 			if (dice[k] == j) {
+				// Increase count everytime a value has repeated
 				count++;
 			}
 		}
+		// If a value repeats 3 times...
 		if (count == 3) {
-			check = 1;
-			num3 = j;
+			// Set hasThreeOfAKind value to true
+			hasThreeOfAKind = 1;
+			// Set threeOfAKindValue variable to number that repeats thrice
+			threeOfAKindValue = j;
 			break;
 		}
 	}
-	if (num3 == -1) {
+
+	// If no three of a kind is found, skip to the next category
+	if (threeOfAKindValue == -1) {
 		return false;
 	}
+
+	// Loop through possible dice values
 	for (int j = 1; j <= 6; j++) {
-		if (j == num3) {
+		// Check if there is a pair of a different value
+		if (j == threeOfAKindValue) {
+			// If the three of a kind value occurs more than once, try and recc another category
 			continue;
 
 		}
+
+		// Count variable checks if dice roll has multiple of the same number
 		int count = 0;
 
 		//Move through 5 dice
@@ -96,36 +171,73 @@ bool Round::isFullHouse(int* dice) {
 				count++;
 			}
 		}
+		// If a pair has been detected
 		if (count == 2) {
-			check2 = 1;
+			// hasPair flag set to true
+			hasPair = 1;
 			break;
 		}
 	}
-	return check && check2;
+	// return true for Full House category
+	return hasThreeOfAKind && hasPair;
 }
 
-int Round::almostFullHouse(int* dice) {
+/* *********************************************************************
+Function Name: checkIfAlmostFullHouse
+Purpose: To determine if the current set of dice is close to forming a Full House (i.e., if there is a three of a kind).
+Parameters:
+	- dice (int*): A pointer to the array representing the dice values.
+Return Value: The value of the dice that appears three times if a three of a kind is found; otherwise, -1.
+Algorithm:
+	1) Loop through possible dice values.
+	2) Count the occurrences of each value and return the value if it appears three times.
+	3) If no three of a kind is found, return -1.
+Reference: Tutor
+********************************************************************* */
+
+int Round::checkIfAlmostFullHouse(int* dice) {
+	// Loop through all dice face values
 	for (int j = 1; j <= 6; j++) {
+		
+		// Count variable to determine how many times a dice value appears
 		int count = 0;
 
-		//Move through 5 dice
+		// Move through 5 dice
 		for (int k = 0; k < 5; k++) {
+			// If any of the dice have the same value as the current number, increase count
 			if (dice[k] == j) {
 				count++;
 			}
 		}
+		// If count is equal to 3..
 		if (count == 3) {
-			//return number that has 3 of the same number
+			// Return number that has 3 of the same number
 			return j;
 		}
 	}
-	//if there arent any, theres nothing to return
+	// If there is not 3 straight, theres nothing to return
 	return -1;
 }
 
-vector<int> Round::almostFullHouse2(int* dice) {
+/* *********************************************************************
+Function Name: findAlmostFullHousePairs
+Purpose: To determine if the current set of dice contains two pairs, which could be used to form a Full House.
+Parameters:
+	- dice (int*): A pointer to the array representing the dice values.
+Return Value: A vector containing the values of the pairs if found; otherwise, an empty vector.
+Algorithm:
+	1) Loop through all possible dice values to find a value that appears exactly twice.
+	2) If a pair is found, continue searching for another pair.
+	3) Return the values of the two pairs if found, otherwise return an empty vector.
+Reference: Tutor
+********************************************************************* */
+
+vector<int> Round::findAlmostFullHousePairs(int* dice) {
+
+	// Variable to store the value that appears exactly twice
 	int num2 = -1;
 
+	// Loop through all possible dice values
 	for (int j = 1; j <= 6; j++) {
 		int count = 0;
 
@@ -135,52 +247,79 @@ vector<int> Round::almostFullHouse2(int* dice) {
 				count++;
 			}
 		}
+		// If the value appears exactly twice, store it in num2 and break out of the loop
 		if (count == 2) {
 			num2 = j; 
 			break;
 		}
 	}
+	// If no value appears exactly twice, return an empty vector
 	if (num2 == -1) { 
 		return vector<int>();
 	}
+
+	// Loop through all possible dice values (1 to 6) to find another pair
 	for (int j = 1; j <= 6; j++) {
+
+		// Skip the value already stored in num2
 		if (j == num2) { 
 			continue;
 
 		}
 		int count = 0;
 
-		//Move through 5 dice
+		// Count the occurrences of value j in the dice array
 		for (int k = 0; k < 5; k++) {
 			if (dice[k] == j) {
 				count++;
 			}
 		}
+		// If another value also appears exactly twice, store both pairs and return
 		if (count == 2) {
+			// int vector that stores value of dice that occur twice
 			vector <int> storePairs;
+			// Store first pair value
 			storePairs.push_back(num2);
+			// Store second pair value
 			storePairs.push_back(j);
 			return storePairs;
 		}
 	}
+	// If no other pair is found, return an empty vector
 	return vector<int>();
 }
 
-int Round::almostThreeOfaKind(int* dice) {
+/**********************************************************************
+Function Name: checkIfAlmostThreeOfaKind
+Purpose: To determine if the current set of dice contains a pair, indicating that it is close to forming a three of a kind.
+Parameters:
+	- dice (int*): A pointer to the array representing the dice values.
+Return Value: The value of the dice that appears twice if found; otherwise, -1.
+Algorithm:
+	1) Loop through all possible dice values.
+	2) Count the occurrences of each value and return the value if it appears twice.
+	3) If no pair is found, return -1.
+Reference: Tutor
+**********************************************************************/
+
+int Round::checkIfAlmostThreeOfaKind(int* dice) {
 	
+	// Move through 6 dice values
 	for (int j = 1; j <= 6; j++) {
 		
-
+		// Count variable to tally the occurrences of a number
 		int count = 0;
 
-		//Move through 5 dice
+		// Move through 5 dice
 		for (int k = 0; k < 5; k++) {
 			if (dice[k] == j) {
+				// Increase count any time the same number has been detected
 				count++;
 			}
 		}
+		// If only two numbers are the same
 		if (count == 2) {
-			//return number that has 2 of the same number
+			// Return number that has 2 of the same number
 			return j;
 		}
 	}
@@ -188,6 +327,20 @@ int Round::almostThreeOfaKind(int* dice) {
 	return -1;
 }
 
+/* *********************************************************************
+Function Name: shouldReroll
+Purpose: To determine which dice should be re-rolled to maximize points during a round.
+Parameters:
+	- diceRoll (int*): A pointer to the array representing the dice values.
+	- scorecard (Scorecard&): A reference to the scorecard object to access available categories.
+	- human (bool): Indicates whether the player is a human or a computer, affecting suggestion outputs.
+Return Value: A vector of boolean values indicating which dice should be re-rolled.
+Algorithm:
+	1) Analyze the current set of dice and check which categories are available to determine optimal re-rolls.
+	2) Suggest re-rolls based on maximizing scoring potential (e.g., aiming for a Full House, Straight, or Yahtzee).
+	3) Return a vector of boolean values indicating which dice should be re-rolled.
+Reference: Tutor
+********************************************************************* */
 
 vector<bool> Round::shouldReroll(int* diceRoll, Scorecard& scorecard, bool human) {
 	// Keeps track of how many times each dice value appears in a roll, initializes all values to zero
@@ -262,10 +415,10 @@ vector<bool> Round::shouldReroll(int* diceRoll, Scorecard& scorecard, bool human
 		// int vector that stores the value of the non consecutive dice values returned by checkNotConsecutive
 		vector<int> roundConsecutiveNums = checkNotConsecutive(diceRoll, 4);
 
-		// Loop through our fice die
+		// Loop through our five die
 		for (int i = 0; i < 5; i++) {
 			// Checks if the current dice is one of the values stored in roundConsecutiveNums
-			if (isNumberInVector(roundConsecutiveNums, diceRoll[i])) {
+			if (checkIsNumberInVector(roundConsecutiveNums, diceRoll[i])) {
 				// if the current dice is one of the non consecutive numbers, set rerollOrNot as true for that dice
 				rerollOrNot[i] = true;
 			}
@@ -273,11 +426,11 @@ vector<bool> Round::shouldReroll(int* diceRoll, Scorecard& scorecard, bool human
 
 		// Account for the dice that appear more than once so that we have a higher chance of consec numbers
 		for (int i = 0; i < 6; i++) {
-			// Going through how many each dice face value occurs..
+			// Going through how many times each dice face value occurs..
 			// If a number repeats more than once
 			if (storeDice[i] > 1) {
 
-				// Variable that tracks whether the first occurance of a value
+				// Variable that tracks whether the first occurrence of a value
 				// has been encountered, set to false
 				bool firstAppearance = false;
 
@@ -315,30 +468,48 @@ vector<bool> Round::shouldReroll(int* diceRoll, Scorecard& scorecard, bool human
 	}
 
 
-	// Aiming for 4 straight if we only have 3 of a kind
+	// Aiming for Four straight if we only have Three of a kind
+	// Check if we have Three straight and if Four Straight category is empty
 	else if (scorecard.checkConsecutive(diceRoll, 3) == true && scorecard.getWinner(9) == " ") {
+		// int vector that stores the value of the non consecutive dice values returned by checkNotConsecutive
 		vector<int> roundConsecutiveNums = checkNotConsecutive(diceRoll, 3);
+
 		// Check if any of the non consec values are in our diceroll
 		for (int i = 0; i < 5; i++) {
-			if (isNumberInVector(roundConsecutiveNums, diceRoll[i])) {
+			if (checkIsNumberInVector(roundConsecutiveNums, diceRoll[i])) {
+				// If our dice has any of the non consecutive values, set rerollOrNot flag to true
 				rerollOrNot[i] = true;
 			}
 		}
+
+		// Reroll additional repeating numbers
 		for (int i = 0; i < 6; i++) {
-			// reroll number appearing more than once
+			// Going through how many times each dice face value occurs..
+			// If a number repeats more than once
 			if (storeDice[i] > 1) {
+				// Variable that tracks whether the first occurrence of a value
+				// has been encountered, set to false
 				bool firstAppearance = false;
+
+				// Move through 5 dice
 				for (int j = 0; j < 5; j++) {
+					// If the dice values match the current dice values
 					if (diceRoll[j] == i + 1) {
+						// If first appearance was previously false, set to true
+						// since it has now been detected
 						if (!firstAppearance) {
+							// If this is the first time a number has appeared, set to true
 							firstAppearance = true;
 							continue;
 						}
+						// For all other appearances, set rerollOrNot to true for that dice
 						rerollOrNot[j] = true;
 					}
 				}
 			}
 		}
+		// If player is human, suggest to re-roll non consecutive value
+		// As well as dices that occur more than once
 		if (human) {
 			cout << "We suggest you reroll Dice ";
 			for (int i = 0; i < 5; i++) {
@@ -350,28 +521,30 @@ vector<bool> Round::shouldReroll(int* diceRoll, Scorecard& scorecard, bool human
 			cout << " to get a Four Straight" << endl;
 		}
 
+		// Return reroll recommendations
 		return rerollOrNot;
 	}
 
 	// Check if roll is a full house
-	else if (isFullHouse(diceRoll) && scorecard.getWinner(8) == " ") {
+	else if (checkIfFullHouse(diceRoll) && scorecard.getWinner(8) == " ") {
+		// If there is a full house, do not reccommend a re-roll
 		if (human) {
 			cout << "We suggest you do not reroll since you are eligible for a Full House. " << endl;
 		}
 		return rerollOrNot;
 	}
 
-	// If theres 3 of one number and 1 of another OR theres two of one number and two of another
-	// Aim for full house
-	// 5, 5, 5, 4, 2
-	// We want to keep 5, reroll 4 or reroll 2
-	// reroll first index that is not that is kept (5)
 
-	else if (almostFullHouse(diceRoll) != -1 && scorecard.getWinner(8) == " ") {
-		int num3 = almostFullHouse(diceRoll);
+	// If dice is close to fufilling a Full House and the category is empty..
+	else if (checkIfAlmostFullHouse(diceRoll) != -1 && scorecard.getWinner(8) == " ") {
+		
+		// Assign the number that repeats thrics to int variable num3
+		int num3 = checkIfAlmostFullHouse(diceRoll);
 		for (int i = 0; i < 5; i++) {
 			if (diceRoll[i] != num3) {
+				// Set rerollOrNot flag to true for numbers that are not the ones that repeat thrice
 				rerollOrNot[i] = true;
+				// Suggest to re-roll the two dice that are not in num3 if human player 
 				if (human) {
 					cout << "We suggest you reroll dice " << i+1 << " to aim for a Full House" << endl;
 				}
@@ -379,14 +552,22 @@ vector<bool> Round::shouldReroll(int* diceRoll, Scorecard& scorecard, bool human
 			}
 		}
 	}
-	// checks if there are 2 pairs of the same number
-	else if (!(almostFullHouse2(diceRoll).empty()) && scorecard.getWinner(8) == " ") {
-		vector<int> storePairs = almostFullHouse2(diceRoll);
+
+	// If dice is close to fufilling a Full House and the category is empty.. 
+	// Checks if there are 2 pairs of the same number
+	else if (!(findAlmostFullHousePairs(diceRoll).empty()) && scorecard.getWinner(8) == " ") {
+		
+		// Int vector that stores values of the two pairs
+		vector<int> storePairs = findAlmostFullHousePairs(diceRoll);
+
+		// Loop thruogh 5 dice
 		for (int i = 0; i < 5; i++) {
-			// reroll specific diceroll that isnt in the pair
-			// Finds odd one out
-			if (!(isNumberInVector(storePairs, diceRoll[i]))) {
+			// If the number currently inspected isnt one of the pairs
+			if (!(checkIsNumberInVector(storePairs, diceRoll[i]))) {
+				// Set rerollOrNot to true for dice that is the odd one out
 				rerollOrNot[i] = true;
+
+				// Suggest human to reroll outcast dice
 				if (human) {
 					cout << "We suggest you reroll dice " << i+1 << " to aim for a full house" << endl;
 				}
@@ -395,17 +576,23 @@ vector<bool> Round::shouldReroll(int* diceRoll, Scorecard& scorecard, bool human
 		}
 	}
 
-	// skipping three of a kind because we would want to get a full house
-	// skipping four of a kind because we would want yahtzee
+	// Skipping three of a kind because we would want to get a full house (more points)
+	// Skipping four of a kind because we would want yahtzee (more points)
 
-	else if (almostThreeOfaKind(diceRoll) != -1 && scorecard.getWinner(7) == " ") {
-		int num2 = almostThreeOfaKind(diceRoll);
+	// Aim for Three of a kind
+	else if (checkIfAlmostThreeOfaKind(diceRoll) != -1 && scorecard.getWinner(7) == " ") {
+		
+		// Variable that stores value of dice that appear twice
+		int num2 = checkIfAlmostThreeOfaKind(diceRoll);
+
+		// Loop through 5 dice values
 		for (int i = 0; i < 5; i++) {
 			if (diceRoll[i] != num2) { 
-				// reroll all the dice that are not the same as the pair
+				// Reroll all the dice that are not the same as the pair
 				rerollOrNot[i] = true; 
 			}
 		}
+		// Suggest human to re-roll values so progam can get 3+ of the same dice
 		if (human) {
 			cout << "We suggest you reroll ";
 			for (int i = 0; i < 5; i++) {
@@ -423,33 +610,48 @@ vector<bool> Round::shouldReroll(int* diceRoll, Scorecard& scorecard, bool human
 		// store numbers of 1s, 2s ... 6s in array
 		int diceNum[6] = { 0 };
 
+		// Count the number of 1s-6s in arrays
 		for (int i = 0; i < 5; i++) {
 			diceNum[diceRoll[i] - 1]++;
 		}
 
-		// Store number with highest toss value
-		// 4, 4, 6, 6, 4
-		// Reroll until we can get as many 6's
+		
+		// Variable that stores dice number with highest points
 		int highestRoll = -1; 
+
+		// Variable that stores face value with highest roll value
 		int highestValue = -1;
 
+		// Go through categories 1-6
 		for (int i = 0; i < 6; i++) {
+			// If there is no winner for the category, continue
 			if (scorecard.getWinner(i) != " ") {
 				continue;
 			}
+
+			// Variable that holds the amount of points the current category will give
 			int tempValue = 0;
+
+			// Calculate how many points the current category will give
 			tempValue = diceNum[i] * (i + 1);
+
+			// If the current category gives more potential points than the category already giving the highest points
 			if (tempValue >= highestValue) {
+				// Make the new highest achieveable value the current tempValue
 				highestValue = tempValue;
+
+				// Update highestRoll to the current dice face value
 				highestRoll = i+1;
 			}
 		}
+
+		// Mark the dice that are not the highestRoll value for reroll
 		for (int i = 0; i < 5; i++) {
 			if (diceRoll[i] != highestRoll) {
 				rerollOrNot[i] = true;
 			}
 		}
-
+		// Suggest reroll to human if applicable
 		if (human && highestRoll != -1) {
 			cout << "We suggest you reroll Dice ";
 			for (int i = 0; i < 5; i++) {
@@ -469,6 +671,17 @@ vector<bool> Round::shouldReroll(int* diceRoll, Scorecard& scorecard, bool human
 	
 }
 
+/* *********************************************************************
+Function Name: rollDice
+Purpose: To randomly generate and display values for all five dice in the current round.
+Parameters:
+	- name (string): The name of the player rolling the dice.
+Return Value: None
+Algorithm:
+	1) Generate a random value between 1 and 6 for each of the five dice.
+	2) Display the generated values.
+Reference: None
+********************************************************************* */
 
 void Round::rollDice(string name) {
 
@@ -482,6 +695,19 @@ void Round::rollDice(string name) {
 	
 
 }
+
+/* *********************************************************************
+Function Name: reRoll
+Purpose: To allow the player to re-roll some or all of the five dice in the current round.
+Parameters:
+	- name (string): The name of the player rolling the dice.
+Return Value: None
+Algorithm:
+	1) Prompt the player to decide which dice to re-roll.
+	2) Allow the player to input custom values or generate new random values for each selected die.
+	3) Display the updated set of dice.
+Reference: None
+********************************************************************* */
 
 void Round::reRoll(string name) {
 	
@@ -544,6 +770,16 @@ void Round::reRoll(string name) {
 
 }
 
+/* *********************************************************************
+Function Name: displayDice
+Purpose: To display the current values of the five dice in the round.
+Parameters: None
+Return Value: None
+Algorithm:
+	1) Loop through the five dice and output their values.
+Reference: None
+********************************************************************* */
+
 void Round::displayDice() {
 	
 	// displays all die and their values
@@ -556,13 +792,52 @@ void Round::displayDice() {
 	cout << endl;
 }
 
-int* Round::getDice() {
+/* *********************************************************************
+Function Name: getDice
+Purpose: To retrieve the current values of the five dice in the round.
+Parameters: None
+Return Value: A pointer to the array representing the dice values.
+Algorithm:
+	1) Return the pointer to the array holding the current dice values.
+Reference: None
+********************************************************************* */
 
+int* Round::getDice() {
+	// Return rolled dice
 	return diceRoll;
 }
 
+/* *********************************************************************
+Function Name: setDice
+Purpose: To set or update the value of a specific die.
+Parameters:
+	- dice (int): The value to set for the die.
+	- diceNumber (int): The index of the die to be updated.
+Return Value: None
+Algorithm:
+	1) Validate the input value to ensure it is between 1 and 6.
+	2) Update the value of the specified die.
+Reference: None
+********************************************************************* */
+
 void Round::setDice(int dice, int diceNumber) {
+	// Validating input when mutator function for setting dice is used
 	if (dice > 0 && dice < 7) {
 		diceRoll[diceNumber] = dice;
 	}
+}
+
+/* *********************************************************************
+Function Name: ~Round (Destructor)
+Purpose: To release resources allocated during the round.
+Parameters: None
+Return Value: None
+Algorithm:
+	1) Delete the allocated memory for the diceRoll array.
+Reference: None
+********************************************************************* */
+
+// Destructor releases resources
+Round::~Round() {
+	delete diceRoll;
 }

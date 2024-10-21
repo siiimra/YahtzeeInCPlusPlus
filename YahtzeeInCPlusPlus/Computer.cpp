@@ -1,7 +1,35 @@
 #include "Computer.h"
 #include <iostream>
 
+/* *********************************************************************
+Function Name: Computer (Constructor)
+Purpose: To initialize a new Computer player object.
+Parameters:
+	- name1 (string): The name of the player being created. It is passed by value.
+Return Value: None (constructor)
+Algorithm:
+	1) Call the base class constructor to initialize the player.
+Reference: None
+**********************************************************************/
+
 Computer::Computer(string name1) : Player(name1) {}
+
+/* *********************************************************************
+Function Name: turn
+Purpose: To handle the computer player's turn, including rolling and re-rolling dice, and choosing a category to maximize points.
+Parameters:
+	- scorecard (Scorecard&): A reference to the scorecard object. It is modified to update scores and categories filled during the computer's turn.
+	- roundNum (int): The current round number.
+	- round (Round&): A reference to the round object that manages dice rolls and re-rolls.
+Return Value: None
+Algorithm:
+	1) Roll all 5 dice and determine which ones should be re-rolled to maximize points.
+	2) Re-roll dice as suggested by the shouldReroll function up to two times if beneficial.
+	3) Display the available categories and determine which category yields the highest points.
+	4) Update the scorecard with the chosen category and set the computer's running score.
+	5) Display the updated scorecard.
+Reference: None
+**********************************************************************/
 
 void Computer::turn(Scorecard& scorecard, int roundNum, Round& round) {
 
@@ -32,6 +60,7 @@ void Computer::turn(Scorecard& scorecard, int roundNum, Round& round) {
 
 	// Otherwise, announce & re-roll the dice that diceToReroll set to true
 	else {
+		// Annonunce which dice numbers are going to be re-rolled
 		cout << "Rerolling dice(s) ";
 		for (int i = 0; i < 5; i++) {
 			if (diceToReroll[i] == true) {
@@ -40,6 +69,7 @@ void Computer::turn(Scorecard& scorecard, int roundNum, Round& round) {
 		}
 		cout << endl;
 
+		// Generate random numbers for dice that need to be rerolled
 		for (int i = 0; i < 5; i++) {
 			if (diceToReroll[i] == true) {
 				round.setDice(rand() % 6 + 1, i);
@@ -99,16 +129,27 @@ void Computer::turn(Scorecard& scorecard, int roundNum, Round& round) {
 	vector<int> displayGood;
 	displayGood = scorecard.displayAvailable(round.getDice());
 
-	int highestPoints = scorecard.potentialPoints(round.getDice(), displayGood); 
-	cout << "Based on the final roll, the computer will fill " << scorecard.getCategory(highestPoints) << " because it will earn it the highest number of points. (" << scorecard.calcRunningScore(round.getDice(), highestPoints) << ")" << endl;
 
+	// Announce the possible points each available category will give
+	int highestPoints = scorecard.getPotentialPoints(round.getDice(), displayGood);
+
+	// Context specific explanation of the computers course of action
+	cout << "Based on the final roll, the computer will fill " 
+		<< scorecard.getCategory(highestPoints) 
+		<< " because it will earn it the highest number of points. (" 
+		<< scorecard.calcRunningScore(round.getDice(), highestPoints) 
+		<< ")" << endl;
+
+	// Variable that holds which category computer will pick
 	int chosenCategory = -1;
+
 
 	if (displayGood.empty()) {
 		cout << "No categories can be filled. " << endl;
 	}
-	else {
 
+	else {
+		// Go through available categories and pick the one giving the highest points
 		for (int i = 0; i < displayGood.size(); i++) {
 			int score = 0;
 			score = scorecard.calcRunningScore(round.getDice(), displayGood[i]);
@@ -117,8 +158,12 @@ void Computer::turn(Scorecard& scorecard, int roundNum, Round& round) {
 				chosenCategory = displayGood[i];
 			}
 		}
+		// Update scorecard with computers chosen category
 		scorecard.updateScorecard(chosenCategory, name, computerScore, roundNum);
 	}
+	// Set computers running score
 	setScore(scorecard.calcFinalScore(name));
+
+	// Display scorecard again
 	scorecard.displayAll();
 }

@@ -22,13 +22,14 @@ class Tournament {
 public:
 	Tournament(Human& human, Computer& computer);
 	void startGame();
+
 	string toss();
 
 	//serialization functions
 	void writeFile(const int roundNum);
-
 	void readFile(int& roundNum, string fileName); 
 
+	// Starting menu
 	void selectMenu(int& roundNumber);
 
 
