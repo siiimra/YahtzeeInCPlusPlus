@@ -458,8 +458,11 @@ vector<int> Scorecard::displayAvailable(int* dice) {
 				
 				}
 			}
+			
 		}
 	}
+
+
 	// Return the categories pushed into the vector
 	return availableCategories;
 }

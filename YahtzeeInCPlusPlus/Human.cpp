@@ -183,17 +183,23 @@ void Human::turn(Scorecard& scorecard, int roundNum, Round& round) {
 			// Variable that calls getPotentialPoints function
 			// Assigned and returns the category that will earn highest points
 			int highestPoints = scorecard.getPotentialPoints(round.getDice());
+			int bestCategory = -1;
+
 
 			// If there is a category that can be filled..
-			if (highestPoints != -1 ){
-				// Suggests user which category to fill based on current roll 
-				// Uses the highestPoints variable to output a category and the potential points
-				cout << "Based on your current roll, you should fill " 
-					<< scorecard.getCategory(highestPoints) 
-					<< " because it will earn you the highest number of points. (" 
-					<< scorecard.calcRunningScore(round.getDice(), highestPoints) 
-					<< ")" << endl;
+			if (bestCategory != -1 ){
+				cout << "Based on the final roll, the computer will fill "
+					<< scorecard.getCategory(bestCategory)
+					<< " because it will earn the highest number of points ("
+					<< highestPoints << ")." << endl;
+
+				// Update scorecard with the computer's chosen category
+				scorecard.updateScorecard(bestCategory, name, highestPoints, roundNum);
 			}
+			else {
+				cout << "No category can be filled" << endl;
+			}
+
 
 			// If more points can potentially be earned, use shouldReroll() function 
 			// to suggest which dice to re-roll and which category to aim for

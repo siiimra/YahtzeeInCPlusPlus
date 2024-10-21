@@ -99,6 +99,30 @@ void Tournament::startGame() {
 			// Call the human turn
 			human->turn(scorecard, roundNumber, round);
 
+			if (scorecard.gameOver()) {
+
+				// Announce scores of both players
+				cout << "Total score for " << human->getName() << ": " << human->getScore() << endl;
+				cout << "Total score for " << computer->getName() << ": " << computer->getScore() << endl;
+
+				// Announce winner
+
+				// If the human and computer have the same score, announce a tie
+				if (human->getScore() == computer->getScore()) {
+					cout << "Its a tie!";
+				}
+
+				// If the human has a higher score, announce the human players name
+				else if (human->getScore() > computer->getScore()) {
+					cout << "\nWinner: " << human->getName() << " !";
+				}
+				//If the human has a higher score, announce the computers name
+				else {
+					cout << "\nWinner: " << computer->getName() << " !";
+				}
+				break;
+			}
+
 			// Announce Computer's turn next
 			cout << "\nComputer Turn " << endl;
 			// Call the computer turn
@@ -110,6 +134,30 @@ void Tournament::startGame() {
 			cout << "\nComputer Turn " << endl;
 			// Call the computer turn
 			computer->turn(scorecard, roundNumber, round);
+
+			if (scorecard.gameOver()) {
+
+				// Announce scores of both players
+				cout << "Total score for " << human->getName() << ": " << human->getScore() << endl;
+				cout << "Total score for " << computer->getName() << ": " << computer->getScore() << endl;
+
+				// Announce winner
+
+				// If the human and computer have the same score, announce a tie
+				if (human->getScore() == computer->getScore()) {
+					cout << "Its a tie!";
+				}
+
+				// If the human has a higher score, announce the human players name
+				else if (human->getScore() > computer->getScore()) {
+					cout << "\nWinner: " << human->getName() << " !";
+				}
+				//If the human has a higher score, announce the computers name
+				else {
+					cout << "\nWinner: " << computer->getName() << " !";
+				}
+				break;
+			}
 
 			// Announce Human's turn next
 			cout << "\nHuman Turn " << endl;
@@ -149,29 +197,7 @@ void Tournament::startGame() {
 
 	}
 	 
-	// Once all 12 categories have been filled ...
-	if (scorecard.gameOver()) {
 
-		// Announce scores of both players
-		cout << "Total score for " << human->getName() << ": " << human->getScore() << endl;
-		cout << "Total score for " << computer->getName() << ": " << computer->getScore() << endl;
-
-		// Announce winner
-
-		// If the human and computer have the same score, announce a tie
-		if (human->getScore() == computer->getScore()) {
-			cout << "Its a tie!";
-		}
-
-		// If the human has a higher score, announce the human players name
-		else if (human->getScore() > computer->getScore()) {
-			cout << "\nWinner: " << human->getName() << " !";
-		}
-		//If the human has a higher score, announce the computers name
-		else {
-			cout << "\nWinner: " << computer->getName() << " !";
-		}
-	}
 }
 
 
@@ -312,6 +338,7 @@ void Tournament::readFile(int& roundNum, string fileName) {
 		file.open(fileName); 
 	}
 
+
 	// Variable to hold each line of the file
 	string line;
 
@@ -388,6 +415,8 @@ void Tournament::readFile(int& roundNum, string fileName) {
 
 	// Close the file after reading
 	file.close();
+
+	scorecard.displayAll();
 }
 
 /* *********************************************************************

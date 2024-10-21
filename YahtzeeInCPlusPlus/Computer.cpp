@@ -35,58 +35,55 @@ void Computer::turn(Scorecard& scorecard, int roundNum, Round& round) {
 
 	// Initialize computer score to 0
 	int computerScore = 0;
+	bool manualInput = false;
 
-	// Computer rolls 5 dice
-	round.rollDice(name);
+	char choice;
+	cout << "Would you like to roll your own dice? (y/n) ";
 
-	// Vector that stores the dice that should be re-rolled
-	vector<bool> diceToReroll = round.shouldReroll(round.getDice(), scorecard, false);
+	cin >> choice;
+	while (choice != 'Y' && choice != 'y' && choice != 'N' && choice != 'n') {
+		cout << "Invalid choice, input Y or N: ";
+		cin >> choice;
+	}
+	if (choice == 'Y' || choice == 'y') {
+		manualInput = true;
+		// Variable that holds custom dice value
+		int diceChoice;
 
-	// Bool variable that checks if there are ANY dice to reroll
-	bool checkToReroll = false;
+		// Move through five dice
+		for (int i = 0; i < 5; i++) {
 
-	// Set checkToReroll to true if diceToReroll has any true values
-	for (int i = 0; i < 5; i++) {
-		if (diceToReroll[i] == true) {
-			checkToReroll = true;
-			break;
+			// Prompt user to enter values of the five die
+			cout << "Enter dice " << i + 1 << ": ";
+
+			// Recieve custom dice input
+			cin >> diceChoice;
+
+			// Input validation
+			// Prompt for valid input if user attempts to populate diceChoice with values 
+			// less than 1 or greather than 6
+			while (diceChoice < 1 || diceChoice > 6) {
+				cout << "Invalid dice input. Dice can only be in range 1-6. ";
+				cin >> diceChoice;
+			}
+
+			// Populate the dice roll array with the custom values
+			(round.setDice(diceChoice, i));
 		}
+
+
 	}
 
-	// If checkToReroll stays false, no need to reroll
-	if (!(checkToReroll)) {
-		cout << "No need to reroll. " << endl;
-	}
+	// If user opts out of inputting custom dice..
+	else if (choice == 'N' || choice == 'n') {
+		// Randomly generate and display 5 dice
+		round.rollDice(name);
 
-	// Otherwise, announce & re-roll the dice that diceToReroll set to true
-	else {
-		// Annonunce which dice numbers are going to be re-rolled
-		cout << "Rerolling dice(s) ";
-		for (int i = 0; i < 5; i++) {
-			if (diceToReroll[i] == true) {
-				cout << i + 1 << " ";
-			}
-		}
-		cout << endl;
+		// Vector that stores the dice that should be re-rolled
+		vector<bool> diceToReroll = round.shouldReroll(round.getDice(), scorecard, false);
 
-		// Generate random numbers for dice that need to be rerolled
-		for (int i = 0; i < 5; i++) {
-			if (diceToReroll[i] == true) {
-				round.setDice(rand() % 6 + 1, i);
-			}
-		}
-		// Announce new dice
-		cout << "Dice rolled: ";
-		for (int i = 0; i < 5; ++i) {
-			cout << round.getDice()[i] << " ";
-		}
-		cout << endl;
-
-		// Same logic as above to determine if second re-roll is needed
-
-		// Set both variables to their default states
-		diceToReroll = round.shouldReroll(round.getDice(), scorecard, false);
-		checkToReroll = false;
+		// Bool variable that checks if there are ANY dice to reroll
+		bool checkToReroll = false;
 
 		// Set checkToReroll to true if diceToReroll has any true values
 		for (int i = 0; i < 5; i++) {
@@ -98,11 +95,12 @@ void Computer::turn(Scorecard& scorecard, int roundNum, Round& round) {
 
 		// If checkToReroll stays false, no need to reroll
 		if (!(checkToReroll)) {
-			cout << "No need for second reroll. " << endl;
+			cout << "No need to reroll. " << endl;
 		}
 
 		// Otherwise, announce & re-roll the dice that diceToReroll set to true
 		else {
+			// Annonunce which dice numbers are going to be re-rolled
 			cout << "Rerolling dice(s) ";
 			for (int i = 0; i < 5; i++) {
 				if (diceToReroll[i] == true) {
@@ -111,17 +109,60 @@ void Computer::turn(Scorecard& scorecard, int roundNum, Round& round) {
 			}
 			cout << endl;
 
+			// Generate random numbers for dice that need to be rerolled
 			for (int i = 0; i < 5; i++) {
 				if (diceToReroll[i] == true) {
 					round.setDice(rand() % 6 + 1, i);
 				}
 			}
+			// Announce new dice
+			cout << "Dice rolled: ";
+			for (int i = 0; i < 5; ++i) {
+				cout << round.getDice()[i] << " ";
+			}
+			cout << endl;
+
+			// Same logic as above to determine if second re-roll is needed
+
+			// Set both variables to their default states
+			diceToReroll = round.shouldReroll(round.getDice(), scorecard, false);
+			checkToReroll = false;
+
+			// Set checkToReroll to true if diceToReroll has any true values
+			for (int i = 0; i < 5; i++) {
+				if (diceToReroll[i] == true) {
+					checkToReroll = true;
+					break;
+				}
+			}
+
+			// If checkToReroll stays false, no need to reroll
+			if (!(checkToReroll)) {
+				cout << "No need for second reroll. " << endl;
+			}
+
+			// Otherwise, announce & re-roll the dice that diceToReroll set to true
+			else {
+				cout << "Rerolling dice(s) ";
+				for (int i = 0; i < 5; i++) {
+					if (diceToReroll[i] == true) {
+						cout << i + 1 << " ";
+					}
+				}
+				cout << endl;
+
+				for (int i = 0; i < 5; i++) {
+					if (diceToReroll[i] == true) {
+						round.setDice(rand() % 6 + 1, i);
+					}
+				}
+			}
+			cout << "Dice rolled: ";
+			for (int i = 0; i < 5; ++i) {
+				cout << round.getDice()[i] << " ";
+			}
+			cout << endl;
 		}
-		cout << "Dice rolled: ";
-		for (int i = 0; i < 5; ++i) {
-			cout << round.getDice()[i] << " ";
-		}
-		cout << endl;
 	}
 
 
@@ -129,41 +170,66 @@ void Computer::turn(Scorecard& scorecard, int roundNum, Round& round) {
 	vector<int> displayGood;
 	displayGood = scorecard.displayAvailable(round.getDice());
 
+	cout << "Do you want to re-roll your dice? (y/n): ";
+	cin >> choice;
+	while (choice != 'Y' && choice != 'y' && choice != 'N' && choice != 'n') {
+		cout << "Invalid choice, input Y or N: ";
+		cin >> choice;
+	}
+	if (choice == 'Y' || choice == 'y') {
 
-	// Announce the possible points each available category will give
-	int highestPoints = scorecard.getPotentialPoints(round.getDice(), displayGood);
+		round.reRoll(name); // Assuming this calls your dice re-roll logic
+		// After reroll, display updated categories
+		displayGood = scorecard.displayAvailable(round.getDice());
 
-	// Context specific explanation of the computers course of action
-	cout << "Based on the final roll, the computer will fill " 
-		<< scorecard.getCategory(highestPoints) 
-		<< " because it will earn it the highest number of points. (" 
-		<< scorecard.calcRunningScore(round.getDice(), highestPoints) 
-		<< ")" << endl;
+		cout << "Do you want to re-roll your dice? (y/n): ";
+		cin >> choice;
+		while (choice != 'Y' && choice != 'y' && choice != 'N' && choice != 'n') {
+			cout << "Invalid choice, input Y or N: ";
+			cin >> choice;
 
-	// Variable that holds which category computer will pick
-	int chosenCategory = -1;
+		}
+		if (choice == 'Y' || choice == 'y') {
 
+			round.reRoll(name); // Assuming this calls your dice re-roll logic
+			// After reroll, display updated categories
+			displayGood = scorecard.displayAvailable(round.getDice());
+		}
 
-	if (displayGood.empty()) {
-		cout << "No categories can be filled. " << endl;
 	}
 
-	else {
-		// Go through available categories and pick the one giving the highest points
-		for (int i = 0; i < displayGood.size(); i++) {
-			int score = 0;
-			score = scorecard.calcRunningScore(round.getDice(), displayGood[i]);
-			if (score >= computerScore) {
-				computerScore = score;
-				chosenCategory = displayGood[i];
+		// Announce the possible points each available category will give
+		// Announce the possible points each available category will give
+		int highestPoints = 0;
+		int bestCategory = -1;
+
+		// Iterate over available categories to find the best one based on points
+		for (int category : displayGood) {
+			int potentialPoints = scorecard.calcRunningScore(round.getDice(), category);
+			if (potentialPoints > highestPoints) {
+				highestPoints = potentialPoints;
+				bestCategory = category;
 			}
 		}
-		// Update scorecard with computers chosen category
-		scorecard.updateScorecard(chosenCategory, name, computerScore, roundNum);
-	}
-	// Set computers running score
-	setScore(scorecard.calcFinalScore(name));
 
-	// Display scorecard again
-	scorecard.displayAll();
-}
+		// Context-specific explanation of the computer's course of action
+		if (bestCategory != -1) {
+			cout << "Based on the final roll, the computer will fill "
+				<< scorecard.getCategory(bestCategory)
+				<< " because it will earn the highest number of points ("
+				<< highestPoints << ")." << endl;
+
+			// Update scorecard with the computer's chosen category
+			scorecard.updateScorecard(bestCategory, name, highestPoints, roundNum);
+		}
+		else {
+			cout << "No category can be filled" << endl;
+		}
+
+		// Set computers running score
+		setScore(scorecard.calcFinalScore(name));
+
+		// Display scorecard again
+		scorecard.displayAll();
+	}
+
