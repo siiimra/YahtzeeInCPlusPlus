@@ -706,7 +706,7 @@ Algorithm:
 	1) Prompt the player to decide which dice to re-roll.
 	2) Allow the player to input custom values or generate new random values for each selected die.
 	3) Display the updated set of dice.
-Reference: ChatGPT for vector<bool>& rerolled functionality
+Reference: None
 ********************************************************************* */
 
 void Round::reRoll(string name, vector<bool>& rerolled) {
@@ -736,8 +736,7 @@ void Round::reRoll(string name, vector<bool>& rerolled) {
 
 		// If the user chooses not to re-roll this die, mark it as false in the rerolled array
 		if (choice == 'n' || choice == 'N') {
-			// Mark this dice as "not rerolled" for future turns
-			rerolled[i] = false;  
+			rerolled[i] = false;  // Mark this dice as "not rerolled" for future turns
 		}
 		else {
 			// The user chose to re-roll, so update the dice value

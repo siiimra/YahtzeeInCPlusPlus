@@ -44,6 +44,8 @@ Reference: None
 
 void Human::turn(Scorecard& scorecard, int roundNum, Round& round) {
 
+	vector<bool> rerolled(5, true);
+
 	// Indicate that it is the human players first roll
 	cout << "\nRoll 1\n";
 
@@ -156,7 +158,7 @@ void Human::turn(Scorecard& scorecard, int roundNum, Round& round) {
 		cout << "\nRoll 2\n";
 
 		// Display dice after asking user for intentional or random regeneration of dice for each dice
-		round.reRoll(name);
+		round.reRoll(name, rerolled);
 
 		// Asks user if they would like to try for a third re roll
 		cout << "Would you like to change any of your dice? (y/n/? for help): ";
@@ -224,7 +226,7 @@ void Human::turn(Scorecard& scorecard, int roundNum, Round& round) {
 			cout << "\nRoll 3\n";
 			// Display dice after asking user for intentional 
 			// or random regeneration of dice for each dice
-			round.reRoll(name); 
+			round.reRoll(name, rerolled);
 		}
 	}
 

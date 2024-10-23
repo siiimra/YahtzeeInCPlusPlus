@@ -37,6 +37,8 @@ void Computer::turn(Scorecard& scorecard, int roundNum, Round& round) {
 	int computerScore = 0;
 	bool manualInput = false;
 
+	vector<bool> rerolled(5, true);
+
 	char choice;
 	cout << "Would you like to roll your own dice? (y/n) ";
 
@@ -178,7 +180,7 @@ void Computer::turn(Scorecard& scorecard, int roundNum, Round& round) {
 	}
 	if (choice == 'Y' || choice == 'y') {
 
-		round.reRoll(name); // Assuming this calls your dice re-roll logic
+		round.reRoll(name, rerolled); // Assuming this calls your dice re-roll logic
 		// After reroll, display updated categories
 		displayGood = scorecard.displayAvailable(round.getDice());
 
@@ -191,7 +193,7 @@ void Computer::turn(Scorecard& scorecard, int roundNum, Round& round) {
 		}
 		if (choice == 'Y' || choice == 'y') {
 
-			round.reRoll(name); // Assuming this calls your dice re-roll logic
+			round.reRoll(name, rerolled); // Assuming this calls your dice re-roll logic
 			// After reroll, display updated categories
 			displayGood = scorecard.displayAvailable(round.getDice());
 		}

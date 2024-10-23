@@ -17,7 +17,7 @@ public:
 
 
 	void rollDice(string name);
-	void reRoll(string name);
+	void reRoll(string name, vector<bool>& rerolled);
 	void displayDice();
 
 	bool checkIsNumberInVector(const vector<int>& vec, int number);
